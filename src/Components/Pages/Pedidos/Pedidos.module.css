@@ -22,12 +22,21 @@
     min-height: 50px;
     background-color: #eeeeee;
     box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-
-
 }
 
 .rowPedido span{
     padding: 10px;
     justify-self: start;
     align-self: center;
+}
+
+
+.rowPedido button{
+    max-width: 200px;
+    height: 40px;
+    align-self: center;
+}
+.loading{
+    display: flex;
+    justify-content: center;
 }
