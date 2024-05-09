@@ -1,0 +1,26 @@
+.menuLateral{
+    display: grid;
+    grid-template-rows: 150px 50px 50px 50px;
+    height:100vh;
+    padding: 15px 0;
+    box-shadow: 0px 0px 1px 2px rgba(0, 0, 0, 0.20);
+    z-index: 1;
+}
+.btnAtivo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #01426A;
+    color: rgb(255, 255, 255);
+}
+
+.btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+}
+
+.menuLateral img{
+    align-self: center;
+}

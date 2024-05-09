@@ -1,0 +1,17 @@
+.ContainerHeader{
+    display: flex;
+    justify-content: end;
+    height: 150px;
+    padding: 20px;
+    background: white;
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.20);
+
+    
+}
+
+.nomeCli{
+    background-color: #ebeaea;
+    padding: 15px;
+    justify-self: end;
+    height: 50px;
+}

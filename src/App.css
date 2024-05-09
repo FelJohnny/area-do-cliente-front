@@ -133,3 +133,41 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+
+/*   animations  */
+
+.animation-opacity {
+  transition: 0.5s;
+  animation: forwards show-opacity 0.3s;
+}
+
+@keyframes show-opacity {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 100%;
+    transform: initial;
+  }
+}
+
+
+.animation-rigth-to-left{
+  transition: 0.5s;
+  animation: forwards left-to-rigth 0.5s;
+}
+
+@keyframes left-to-rigth {
+  0% {
+    transform: translateX(100%);
+    transition: 5s;
+  }
+  100% {
+    transform: initial;
+    display: fixed;
+  }
+}
+
+

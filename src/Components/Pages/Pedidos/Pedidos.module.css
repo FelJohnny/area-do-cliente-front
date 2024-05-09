@@ -1,0 +1,33 @@
+.containerPedidos{
+    width: 100vw;
+}
+
+
+.nomeColuna{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    margin: 30px 30px 15px 30px;
+}
+
+.nomeColuna span{
+    font-weight: bold;
+    justify-self: start;
+    padding: 10px;
+}
+
+.rowPedido{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    margin: 0 30px 30px 30px;
+    min-height: 50px;
+    background-color: #eeeeee;
+    box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+
+
+}
+
+.rowPedido span{
+    padding: 10px;
+    justify-self: start;
+    align-self: center;
+}
