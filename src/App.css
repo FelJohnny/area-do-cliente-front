@@ -156,10 +156,10 @@ a {
 
 .animation-rigth-to-left{
   transition: 0.5s;
-  animation: forwards left-to-rigth 0.5s;
+  animation: forwards rigth-to-left 0.5s;
 }
 
-@keyframes left-to-rigth {
+@keyframes rigth-to-left {
   0% {
     transform: translateX(100%);
     transition: 5s;
@@ -171,3 +171,20 @@ a {
 }
 
 
+.animation-left-rigth-suav {
+  transition: 0.5s;
+  animation: forwards left-rigth 0.3s;
+}
+
+
+@keyframes left-rigth {
+  0% {
+    transform: translateX(-15px);
+    transition: 5s;
+    opacity: 0;
+  }
+  100% {
+    transform: initial;
+    
+  }
+}

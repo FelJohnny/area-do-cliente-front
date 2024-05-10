@@ -65,7 +65,7 @@ const Pedidos = () => {
             </div>
           )}
           {userAuth.status&& !loading&& pedidos.map((pedido, index) => (
-          <div key={index} className={styles.rowPedido}>
+          <div key={index} className={`${styles.rowPedido} animation-left-rigth-suav`}>
             <span>{pedido.numero}</span>
             <span>{pedido.ped_cli}</span>
             <span>{pedido.dt_emissao}</span>

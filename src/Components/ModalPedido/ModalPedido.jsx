@@ -47,12 +47,12 @@ const ModalPedido = ({modal, setModal, currentPedido}) => {
               </div>
             </div>
             <div className={styles.nomeColuna}>
-                <span>codigo</span>
-                <span>cor</span>
-                <span>tam</span>
-                <span>preço</span>
-                <span>qtde_f</span>
-                <span>qtde_pen</span>
+                <span>CODIGO</span>
+                <span>COR</span>
+                <span>TAM</span>
+                <span>PREÇO</span>
+                <span>QTDE_F</span>
+                <span>QTDE_PEN</span>
             </div>
             <section className={styles.listaProd}>
                 {!currentPedido&& (
@@ -65,7 +65,7 @@ const ModalPedido = ({modal, setModal, currentPedido}) => {
                     <span>{produtoPed.codigo}</span>
                     <span>{produtoPed.cor}</span>
                     <span>{produtoPed.tam}</span>
-                    <span>{produtoPed.preco}</span>
+                    <span>R$ {produtoPed.preco}</span>
                     <span>{produtoPed.qtde_f}</span>
                     <span>{produtoPed.qtde}</span>
                 </div>))}
