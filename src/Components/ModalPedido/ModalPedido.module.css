@@ -15,7 +15,7 @@
 
 .modal{
     background-color: white;
-    width: 90%;
+    width: 60%;
     height: 90%;
     padding: 36px;
     box-shadow: 0 0 5px 1px rgb(177, 177, 177);
@@ -95,4 +95,12 @@
     padding: 10px;
     justify-self: start;
     align-self: center;
+}
+
+.buttons{
+    display: flex;
+    justify-content: end;
+    background-color: #d1d1d1;
+    padding: 10px;
+    margin: 30px;
 }

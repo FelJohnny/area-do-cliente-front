@@ -9,7 +9,8 @@ const Header = () => {
   return (
     <header className={styles.ContainerHeader}>
       <div className={styles.nomeCli}>
-        <p>Empresa: {userAuth.status && currentUser.nome}</p>
+        <p><span>Empresa:</span> {userAuth.status && currentUser.nome}</p>
+        <p><span>CNPJ:</span> {userAuth.status && currentUser.cnpj}</p>
       </div>
     </header> 
   )

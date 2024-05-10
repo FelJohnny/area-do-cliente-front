@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import styles from './ModalPedido.module.css'
+import Button from '../Button/Button';
 
 const ModalPedido = ({modal, setModal, currentPedido}) => {
   const modalContainer = useRef(null);
@@ -45,6 +46,9 @@ const ModalPedido = ({modal, setModal, currentPedido}) => {
                 <p>DT SAIDA: {currentPedido.dt_saida}</p>
                 <p>DT ENTREGA: {currentPedido.entrega}</p>
               </div>
+            </div>
+            <div className={styles.buttons}>
+              <Button>Receber Email</Button>
             </div>
             <div className={styles.nomeColuna}>
                 <span>CODIGO</span>
