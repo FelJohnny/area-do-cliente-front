@@ -5,7 +5,8 @@ import useFetch from "../Hooks/useFetch";
 export const GlobalContext = createContext();
 
 export const GlobalStorage = ({ children }) => {
-  const { loading } = useFetch();
+  
+  const [page, setPage] = useState(1);
   const [userAuth, setUserAuth] = useState({
     token: "",
     usuario: null,
@@ -15,6 +16,11 @@ export const GlobalStorage = ({ children }) => {
   const [currentUser, setCurrentUser] = useState({})
 
   function logout() {
+    setUserAuth({
+        token: "",
+        usuario: null,
+        status: false,
+    })
     window.localStorage.removeItem('token')
     window.location.reload();
   }
@@ -27,7 +33,8 @@ export const GlobalStorage = ({ children }) => {
         currentUser,
         setCurrentUser,
         logout,
-        loading,
+        page,
+        setPage,
       }}
     >
       {children}

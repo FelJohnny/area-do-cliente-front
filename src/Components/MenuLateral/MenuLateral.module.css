@@ -1,5 +1,6 @@
 .menuLateral{
     display: grid;
+    width: 280px;
     grid-template-rows: 150px 50px 50px 50px;
     height:100vh;
     padding: 15px 0;

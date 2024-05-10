@@ -14,9 +14,9 @@ export function POST_LOGIN(dataLogin) {
     };
 }
 
-export function GET_AUTH_USER(codcli, token) {
+export function GET_AUTH_USER(codcli, token,page) {
     return {
-      url: `${URL}:${PORT}/api/pedido/cliente/${codcli}/`,
+      url: `${URL}:${PORT}/api/pedido/cliente/${codcli}/?page=${page}`,
       options: {
         method: "GET",
         headers: {

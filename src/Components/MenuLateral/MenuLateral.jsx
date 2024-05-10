@@ -9,7 +9,7 @@ import useFetch from '../../Hooks/useFetch';
 
 const MenuLateral = ({link1, link2,link3, text1, text2,text3, setBtnAtivo}) => {
 
-  const { setUserAuth, setCurrentUser, logout } = useContext(GlobalContext);
+  const { setUserAuth, setCurrentUser, logout, page } = useContext(GlobalContext);
   const { request } = useFetch();
 
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ const MenuLateral = ({link1, link2,link3, text1, text2,text3, setBtnAtivo}) => {
       const token = window.localStorage.getItem("token");
       if (token) {
         const { codcli } = jwtDecode(token);
-        const { url, options } = GET_AUTH_USER(codcli, token);
+        const { url, options } = GET_AUTH_USER(codcli, token, page);
         const { response, json } = await request(url, options);
         if (response.ok) {
           setUserAuth({ token, usuario: json, status: true });

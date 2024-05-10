@@ -19,7 +19,7 @@ const Login = () => {
     const senhaForm = useForm()
     const navigate = useNavigate()
     const { request, error, loading, data } = useFetch();
-    const { userAuth, setUserAuth,setCurrentUser } = useContext(GlobalContext);
+    const { userAuth, setUserAuth,setCurrentUser, setPage,page } = useContext(GlobalContext);
 
 
     async function handleSubimit(e){ 
@@ -49,7 +49,8 @@ const Login = () => {
 
             async function authLogin(token) {
                 const { codcli } = jwtDecode(token);
-                const { url, options } = GET_AUTH_USER(codcli, token);
+                setPage(1)
+                const { url, options } = GET_AUTH_USER(codcli, token, page);
                 const { response, json } = await request(url, options);
                 if (!response.ok) {
                   setUserAuth({ token: "", usuario: null, status: false });
@@ -74,7 +75,6 @@ const Login = () => {
             setUserAuth({ token, usuario: json, status: true });
             setCurrentUser(json.pedidos.retorno[0].info_cliente);
             navigate('/area-cli/home')
-
           } else {
             setUserAuth({
               token: "",
