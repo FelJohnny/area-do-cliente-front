@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import styles from './Home.module.css'
+import Header from '../../Header/Header.jsx'
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts'
 import { GlobalContext } from '../../../Context/GlobalContext';
 const Home = () => {
@@ -17,19 +18,22 @@ const Home = () => {
   ]
 
   return (
-    <div className={styles.ContainerHome}>
-    <LineChart 
-      width={800}
-      height={300}
-      data={data}
-      >
-      <XAxis dataKey="name"/>
-      <YAxis/>
-      <CartesianGrid stroke="#7a7a7a2b" strokeDasharray="5 5"/>
-      <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-      <Line type="monotone" dataKey="pv" stroke="#82ca9d" />
-    </LineChart>
+    <>
+    <Header/>
+      <div className={styles.ContainerHome}>
+        <LineChart 
+          width={800}
+          height={300}
+          data={data}
+          >
+          <XAxis dataKey="name"/>
+          <YAxis/>
+          <CartesianGrid stroke="#7a7a7a2b" strokeDasharray="5 5"/>
+          <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+          <Line type="monotone" dataKey="pv" stroke="#82ca9d" />
+        </LineChart>
     </div>
+    </>
   )
 }
 

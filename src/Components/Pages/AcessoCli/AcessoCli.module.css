@@ -4,3 +4,17 @@
     height: 100vh;
     overflow:hidden;
 }
+
+.containerPage{
+    overflow-y: auto;
+}
+
+
+
+
+@media (max-width:1100px){
+    .containerAcesso{
+        grid-template-columns: 1fr;
+    }
+}
+

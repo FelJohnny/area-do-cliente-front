@@ -10,7 +10,8 @@ import { GET_AUTH_USER } from '../../../Api/api.js';
 import { jwtDecode } from 'jwt-decode';
 
 const Pedidos = () => {
-  const { userAuth,currentUser,page, setPage,setUserAuth} = useContext(GlobalContext);
+  const { userAuth,currentUser,page, setPage,setUserAuth, setSizeMobile,sizeMobile,} = useContext(GlobalContext);
+
   const [pedidos, setPedidos] = useState([]);
   const [currentPedido, setCurrentPedido]=useState();
   const [modal, setModal] = useState(false);

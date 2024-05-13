@@ -1,10 +1,12 @@
 import { createContext, useEffect, useState } from "react";
-import useFetch from "../Hooks/useFetch";
 
 
 export const GlobalContext = createContext();
 
 export const GlobalStorage = ({ children }) => {
+  //define se a tela corresponde a um mobile
+  //obs: caso sizeMobile inicie como false a autenticacao do token nao é executada
+  const [sizeMobile, setSizeMobile] = useState(true)
   
   const [page, setPage] = useState(1);
   const [userAuth, setUserAuth] = useState({
@@ -35,6 +37,8 @@ export const GlobalStorage = ({ children }) => {
         logout,
         page,
         setPage,
+        sizeMobile,
+        setSizeMobile,
       }}
     >
       {children}

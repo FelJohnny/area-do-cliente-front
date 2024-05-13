@@ -51,12 +51,12 @@ const ModalPedido = ({modal, setModal, currentPedido}) => {
               <Button>Receber Email</Button>
             </div>
             <div className={styles.nomeColuna}>
-                <span>CODIGO</span>
-                <span>COR</span>
-                <span>TAM</span>
-                <span>PREÇO</span>
-                <span>QTDE_F</span>
-                <span>QTDE_PEN</span>
+                <span>NOME</span>
+                <div>
+                  <span>TAMANHO</span>
+                  <span>QTDE_F</span>
+                  <span>QTDE_PEN</span>
+                </div>
             </div>
             <section className={styles.listaProd}>
                 {!currentPedido&& (
@@ -66,12 +66,12 @@ const ModalPedido = ({modal, setModal, currentPedido}) => {
                 )}
                 {currentPedido && currentPedido.itens_pedido.map((produtoPed, index) => (
                 <div key={index} className={styles.rowPedido}>
-                    <span>{produtoPed.codigo}</span>
-                    <span>{produtoPed.cor}</span>
-                    <span>{produtoPed.tam}</span>
-                    <span>R$ {produtoPed.preco}</span>
-                    <span>{produtoPed.qtde_f}</span>
-                    <span>{produtoPed.qtde}</span>
+                    <span>{produtoPed.detalhes_produto.descricao}</span>
+                    <div>
+                      <span>{produtoPed.tam}</span>
+                      <span>{produtoPed.qtde_f.split('.')[0]}</span>
+                      <span>{produtoPed.qtde.split('.')[0]}</span>
+                    </div>
                 </div>))}
             </section>
         </section>

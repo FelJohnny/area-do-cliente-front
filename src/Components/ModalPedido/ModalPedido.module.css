@@ -1,53 +1,3 @@
-.containerModal{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    width: 100vw;
-    position: fixed;
-    margin: 0px;
-    padding: 0;
-    top: 0;
-    left: 0;
-    background-color: #66666670;
-    z-index: 200;
-}
-
-.modal{
-    background-color: white;
-    width: 60%;
-    height: 90%;
-    padding: 36px;
-    box-shadow: 0 0 5px 1px rgb(177, 177, 177);
-    position: relative;
-}
-
-.infoPed{
-    display: flex;
-    gap: 20px;
-    margin: 30px;
-    padding: 20px;
-    background-color: #01426A;
-    color: white;
-    flex-wrap: wrap;
-}
-
-.infoPed h3{
-    
-    font-weight: bold;
-    font-size: 2rem;
-}
-
-.infoPed P{
-    font-size: 1.2rem;
-    margin-bottom: 5px;
-}
-
-.listaProd{
-    overflow-y: scroll;
-    max-height: 50vh;
-}
-
 .close {
     position: absolute;
     top: -15px;
@@ -70,31 +20,103 @@
     scale: 1.1;
 }
 
-.nomeColuna{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    margin: 30px 30px 15px 30px;
+.containerModal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    margin: 0px;
+    padding: 0;
+    top: 0;
+    left: 0;
+    background-color: #66666670;
+    z-index: 200;
 }
 
-.nomeColuna span{
+.modal{
+    background-color: white;
+    width: 60%;
+    height: 90vh;
+    padding: 36px;
+    box-shadow: 0 0 5px 1px rgb(177, 177, 177);
+    position: relative; 
+    
+}
+
+.infoPed{
+    display: flex;
+    gap: 20px;
+    margin: 30px;
+    padding: 20px;
+    background-color: #01426A;
+    color: white;
+    flex-wrap: wrap;
+
+}
+
+.infoPed h3{
+    
     font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.infoPed P{
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.listaProd{
+    overflow-y: scroll;
+    height: 40vh;
+}
+
+
+.nomeColuna{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 30px 30px 15px 30px;
+
+}
+
+.nomeColuna > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.nomeColuna >span{
     justify-self: start;
+    font-weight: bold;
     padding: 10px;
+}
+.nomeColuna > div >span{
+    font-weight: bold;
+    padding: 10px;
+    justify-self: center;
 }
 
 .rowPedido{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     margin: 0 30px 30px 30px;
     min-height: 50px;
     background-color: #eeeeee;
     box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
 }
 
+.rowPedido > div{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
 .rowPedido span{
-    padding: 10px;
-    justify-self: start;
     align-self: center;
+}
+
+.rowPedido > div >span{
+    padding: 10px;
+    justify-self: center;
 }
 
 .buttons{
