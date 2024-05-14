@@ -1,0 +1,17 @@
+.form{
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.20);    
+    padding: 30px;
+    margin-bottom: 30px;
+    gap: 30px;
+    display: flex;
+}
+
+.tituloPage{
+    width: 100%;
+    background-color: rgb(15, 85, 117);
+    color: white;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    padding: 10px;
+}

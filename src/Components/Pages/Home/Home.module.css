@@ -1,5 +1,6 @@
 .ContainerHome{
-    margin: 30px;
+    margin: 30px auto;
+    max-width: 1500px;
     margin-bottom:70px ;
 }
 

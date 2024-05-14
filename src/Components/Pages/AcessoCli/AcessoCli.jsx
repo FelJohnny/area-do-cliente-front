@@ -9,12 +9,14 @@ import MenuMobile from '../../Menus/MenuMobile/MenuMobile.jsx'
 import { jwtDecode } from 'jwt-decode'
 import { GET_AUTH_USER } from '../../../Api/api.js'
 import useFetch from '../../../Hooks/useFetch.jsx'
+import PopUp from '../../PopUp/PopUp.jsx'
 
 const AcessoCli = () => {
 
-  const { setSizeMobile,sizeMobile, setUserAuth, setCurrentUser, logout, page } = useContext(GlobalContext);
+  const { setSizeMobile,sizeMobile, setUserAuth, setCurrentUser, logout, page, popUp } = useContext(GlobalContext);
   const { request } = useFetch();
   const navigate = useNavigate()
+
   //valida token
   useEffect(() => {
     async function fetchValidaToken() {
@@ -57,14 +59,14 @@ const AcessoCli = () => {
       {!sizeMobile ?
       <div className={styles.containerMenu}>
         <MenuLateral
-            link1={'home'}
-            link2={'pedidos'}
-            link3={'sair'}
-            text1={'Home'}
-            text2={'Pedidos'}
-            text3={'Sair'}
-            />
-        </div>:''}
+          link1={'home'}
+          link2={'pedidos'}
+          link3={'sair'}
+          text1={'Home'}
+          text2={'Pedidos'}
+          text3={'Sair'}
+        />
+      </div>:''}
 
         <div className={styles.containerPage}>
           <Routes >
@@ -81,6 +83,7 @@ const AcessoCli = () => {
           text2={'Pedidos'}
           text3={'Sair'}
          /> :''}
+       <PopUp status={popUp.status} color={popUp.color}>{popUp.children}</PopUp>
     </div>
   )
 }

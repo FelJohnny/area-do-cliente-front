@@ -1,10 +1,18 @@
-import { useRef } from 'react'
+import { Children, useContext, useRef, useState } from 'react'
 import styles from './ModalPedido.module.css'
 import Button from '../Button/Button';
+import {SEND_EMAIL_PED_CODCLI} from '../../Api/api.js'
+import { GlobalContext } from '../../Context/GlobalContext';
+import { jwtDecode } from 'jwt-decode';
+import useFetch from '../../Hooks/useFetch';
+import Loading from '../Loading/Loading';
+import PopUp from '../PopUp/PopUp.jsx'
 
 const ModalPedido = ({modal, setModal, currentPedido}) => {
   const modalContainer = useRef(null);
   const CloseContainerPost = useRef(null);
+  const { userAuth, logout,popUp, setPopUp } = useContext(GlobalContext);
+  const { request, loading, error } = useFetch();
 
   function closeModal(event) {
     event.preventDefault();
@@ -16,7 +24,49 @@ const ModalPedido = ({modal, setModal, currentPedido}) => {
     }
   }
 
-  console.log(currentPedido);
+  async function sendPedidoEmail(){
+    if(userAuth.status){
+      const { codcli } = jwtDecode(userAuth.token);
+      if(codcli) {
+        const pedido = currentPedido.numero;
+        const { url, options } = SEND_EMAIL_PED_CODCLI(codcli, pedido, userAuth.token);
+        const { response, json } = await request(url, options);
+        if(response.ok){
+          setPopUp({
+            status:true,
+            children:json.message,
+            color:'#65d3bb',
+          });
+          setTimeout(() => {
+            setPopUp({
+              status:false,
+              color: "",
+              children: ""
+            });
+          }, 6000);
+        }else{
+          setPopUp({
+            status:true,
+            children:error,
+            color:'#ca6655',
+          });
+          setPopUp()
+          setTimeout(() => {
+            setPopUp({
+              status:false,
+              color: "",
+              children: ""
+            });
+          }, 6000);
+        }
+      }
+    }else{
+      console.log('usuario nao autenticado, token invalido');
+      logout();
+
+    }
+  }
+
   return (
       
       <div  className={styles.containerModal} ref={modalContainer} onClick={closeModal}>
@@ -48,7 +98,7 @@ const ModalPedido = ({modal, setModal, currentPedido}) => {
               </div>
             </div>
             <div className={styles.buttons}>
-              <Button>Receber Email</Button>
+              <Button onClick={sendPedidoEmail}>Receber Email</Button>
             </div>
             <div className={styles.nomeColuna}>
                 <span>NOME</span>
@@ -59,11 +109,6 @@ const ModalPedido = ({modal, setModal, currentPedido}) => {
                 </div>
             </div>
             <section className={styles.listaProd}>
-                {!currentPedido&& (
-                    <div className={styles.loading}>
-                    <Loading/>
-                    </div>
-                )}
                 {currentPedido && currentPedido.itens_pedido.map((produtoPed, index) => (
                 <div key={index} className={styles.rowPedido}>
                     <span>{produtoPed.detalhes_produto.descricao}</span>
@@ -74,6 +119,11 @@ const ModalPedido = ({modal, setModal, currentPedido}) => {
                     </div>
                 </div>))}
             </section>
+            {loading&& (
+              <div className={styles.loading}>
+                <Loading/>
+              </div>
+            )}
         </section>
     </div>
   )

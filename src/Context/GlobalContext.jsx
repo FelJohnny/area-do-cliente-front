@@ -7,6 +7,12 @@ export const GlobalStorage = ({ children }) => {
   //define se a tela corresponde a um mobile
   //obs: caso sizeMobile inicie como false a autenticacao do token nao é executada
   const [sizeMobile, setSizeMobile] = useState(true)
+
+  const [popUp, setPopUp] =useState({
+    status:false,
+    color: "",
+    children: ""
+  })
   
   const [page, setPage] = useState(1);
   const [userAuth, setUserAuth] = useState({
@@ -39,6 +45,8 @@ export const GlobalStorage = ({ children }) => {
         setPage,
         sizeMobile,
         setSizeMobile,
+        popUp,
+        setPopUp
       }}
     >
       {children}

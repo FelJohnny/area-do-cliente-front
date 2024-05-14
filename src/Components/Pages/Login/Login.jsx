@@ -19,7 +19,7 @@ const Login = () => {
     const senhaForm = useForm()
     const navigate = useNavigate()
     const { request, error, loading, data } = useFetch();
-    const { userAuth, setUserAuth,setCurrentUser, setPage,page } = useContext(GlobalContext);
+    const { userAuth, setUserAuth,setCurrentUser, setPage,page, logout } = useContext(GlobalContext);
 
 
     async function handleSubimit(e){ 
@@ -69,7 +69,7 @@ const Login = () => {
         const token = window.localStorage.getItem("token");
         if (token) {
           const { codcli } = jwtDecode(token);
-          const { url, options } = GET_AUTH_USER(codcli, token);
+          const { url, options } = GET_AUTH_USER(codcli, token,page);
           const { response, json } = await request(url, options);
           if (response.ok) {
             setUserAuth({ token, usuario: json, status: true });
@@ -82,7 +82,7 @@ const Login = () => {
               status: false,
             });
             setCurrentUser(null)
-            logout();          
+            //logout();          
           }
         }else{
           navigate('/')

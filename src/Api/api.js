@@ -25,3 +25,15 @@ export function GET_AUTH_USER(codcli, token,page) {
       },
     };
   }
+
+  export function SEND_EMAIL_PED_CODCLI(codcli, pedido, token) {
+    return {
+      url: `${URL}:${PORT}/api/pedido/envio-email/${codcli}/${pedido}`,
+      options: {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token} `,
+        },
+      },
+    };
+  }
