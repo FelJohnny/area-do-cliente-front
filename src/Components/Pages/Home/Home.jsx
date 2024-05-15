@@ -20,9 +20,8 @@ const Home = () => {
 
   return (
     <>
-      <Header/>
+      <Header tela={'home'}/>
       <div className={styles.ContainerHome}>
-      <DateRange/>
       
         <LineChart 
           height={300}

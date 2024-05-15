@@ -15,7 +15,7 @@ const AcessoCli = () => {
 
   const { setSizeMobile,sizeMobile, setUserAuth, setCurrentUser, logout, page, popUp } = useContext(GlobalContext);
   const { request } = useFetch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   //valida token
   useEffect(() => {

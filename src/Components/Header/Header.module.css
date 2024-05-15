@@ -1,20 +1,36 @@
 .ContainerHeader{
     display: flex;
-    justify-content: end;
-    padding: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 30px;
     box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.20);    
+    justify-content: space-between;
+    align-items: center;
+    
 }
 
 .nomeCli{
     display: grid;
     gap: 10px;
+    padding: 10px;
     background-color: #ebeaea;
-    padding: 15px;
-    justify-self: end;
-    align-self: center;
+    align-self: flex-start;
     
 }
 
 .nomeCli span{
     font-weight: bold;
+}
+
+@media (max-width:1100px){
+    .ContainerHeader{
+        justify-content: center;
+        align-items: center;
+        flex-direction: column-reverse;
+        gap: 20px;
+    }
+
+    .nomeCli{
+        width: 100%;
+    }
 }

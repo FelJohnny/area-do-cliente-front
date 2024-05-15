@@ -6,13 +6,12 @@ import { GlobalContext } from '../../Context/GlobalContext';
 import { jwtDecode } from 'jwt-decode';
 import useFetch from '../../Hooks/useFetch';
 import Loading from '../Loading/Loading';
-import PopUp from '../PopUp/PopUp.jsx'
 
 const ModalPedido = ({modal, setModal, currentPedido}) => {
   const modalContainer = useRef(null);
   const CloseContainerPost = useRef(null);
   const { userAuth, logout,popUp, setPopUp } = useContext(GlobalContext);
-  const { request, loading, error } = useFetch();
+  const { request, loading,error } = useFetch();
 
   function closeModal(event) {
     event.preventDefault();
@@ -47,10 +46,9 @@ const ModalPedido = ({modal, setModal, currentPedido}) => {
         }else{
           setPopUp({
             status:true,
-            children:error,
-            color:'#ca6655',
+            children:json.message,
+            color:'#f8a090',
           });
-          setPopUp()
           setTimeout(() => {
             setPopUp({
               status:false,
