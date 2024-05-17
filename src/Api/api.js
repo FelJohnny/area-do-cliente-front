@@ -1,9 +1,8 @@
-const PORT = 3333;
-const URL = "http://localhost";
+const URL = "https://cliente.amalfis.com.br";
 
 export function POST_LOGIN(dataLogin) {
     return {
-      url: `${URL}:${PORT}/api/auth/login`,
+      url: `${URL}/api/auth/login`,
       options: {
         method: "POST",
         headers: {
@@ -16,7 +15,7 @@ export function POST_LOGIN(dataLogin) {
 
 export function GET_AUTH_USER(codcli, token,page) {
     return {
-      url: `${URL}:${PORT}/api/pedido/cliente/${codcli}/?page=${page}`,
+      url: `${URL}/api/pedido/cliente/${codcli}/?page=${page}`,
       options: {
         method: "GET",
         headers: {
@@ -28,7 +27,7 @@ export function GET_AUTH_USER(codcli, token,page) {
 
   export function SEND_EMAIL_PED_CODCLI(codcli, pedido, token) {
     return {
-      url: `${URL}:${PORT}/api/pedido/envio-email/${codcli}/${pedido}`,
+      url: `${URL}/api/pedido/envio-email/${codcli}/${pedido}`,
       options: {
         method: "POST",
         headers: {
