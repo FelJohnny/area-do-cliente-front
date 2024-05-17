@@ -13,6 +13,27 @@ export const GlobalStorage = ({ children }) => {
     color: "",
     children: ""
   })
+
+  function getDate(n, startOfMonth = false) {
+    const date = new Date();
+    if (startOfMonth) {
+        date.setDate(1); // Define o dia como 1 para começar do primeiro dia do mês
+    } else {
+        date.setDate(date.getDate() - n);
+    }
+
+    //================================CONSULTA DE PEDIDOS POR DATA=================================/
+    // Formatação da data
+    const dd = String(date.getDate()).padStart(2, '0');
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const yyyy = date.getFullYear();
+    return `${yyyy}-${mm}-${dd}`;
+  }
+  const [inicio, setInicio] = useState(getDate(0,true))
+  const [final, setFinal] = useState(getDate(0))
+
+  const [pedidosPorData, setPedidosPorData] = useState(null);
+    //=============================================================================================/
   
   const [page, setPage] = useState(1);
   const [userAuth, setUserAuth] = useState({
@@ -28,10 +49,13 @@ export const GlobalStorage = ({ children }) => {
         token: "",
         usuario: null,
         status: false,
-    })
+    });
+
     window.localStorage.removeItem('token')
     window.location.reload();
   }
+
+
 
   return (
     <GlobalContext.Provider
@@ -46,7 +70,13 @@ export const GlobalStorage = ({ children }) => {
         sizeMobile,
         setSizeMobile,
         popUp,
-        setPopUp
+        setPopUp,
+        inicio,
+        setInicio,
+        final,
+        setFinal,
+        pedidosPorData,
+        setPedidosPorData
       }}
     >
       {children}

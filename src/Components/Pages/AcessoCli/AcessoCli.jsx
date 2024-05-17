@@ -39,6 +39,7 @@ const AcessoCli = () => {
         }
       }else{
         navigate('/')
+        logout();          
       }
     }
     fetchValidaToken();

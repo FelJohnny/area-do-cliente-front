@@ -6,7 +6,8 @@ import { GlobalContext } from '../../../Context/GlobalContext';
 import DateRange from '../../Filters/DateRange/DateRange.jsx';
 const Home = () => {
 
-  const { userAuth,currentUser,page, setPage,setUserAuth} = useContext(GlobalContext);
+  const { inicio, setInicio,final, setFinal, logout, pedidosPorData } = useContext(GlobalContext);
+
 
   const data =[
     { name:'janeiro', uv:'400',pv: 2400, amt: 2400},

@@ -37,7 +37,6 @@ const Login = () => {
                     const token = requestLogin.json.token;
                     setToken(token);
                     window.localStorage.setItem("token", token);
-                    console.log(token);
                     authLogin(token, requestLogin.json.id);
                     setTimeout(()=>{
                         navigate('/area-cli/home')
