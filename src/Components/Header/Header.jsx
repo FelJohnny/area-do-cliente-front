@@ -11,8 +11,8 @@ const Header = ({tela}) => {
     <header className={styles.ContainerHeader}>
       {tela==='home'? <DateRange/>: <h2>Meus pedidos</h2>}
       <div className={styles.nomeCli}>
-        <p><span>Empresa:</span> {userAuth.status && currentUser.nome}</p>
-        <p><span>CNPJ:</span> {userAuth.status && currentUser.cnpj}</p>
+        <p><span>Empresa:</span> {currentUser.nome && currentUser.nome}</p>
+        <p><span>CNPJ:</span> {currentUser.cnpj && currentUser.cnpj}</p>
       </div>
     </header> 
   )

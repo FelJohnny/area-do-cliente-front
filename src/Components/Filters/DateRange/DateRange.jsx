@@ -18,7 +18,6 @@ const DateRange = () => {
         const { url, options } = GET_PEDIDOS_ON_DATE(codcli,token,inicio,final);
         const {json} = await request(url, options);
         setPedidosPorData(json)
-        console.log(json);
       }else{
         logout();
     }
