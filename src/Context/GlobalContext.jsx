@@ -14,22 +14,24 @@ export const GlobalStorage = ({ children }) => {
     children: ""
   })
 
-  function getDate(n, startOfMonth = false) {
+  
+  //================================CONSULTA DE PEDIDOS POR DATA=================================/
+  function getDate(monthsAgo, startOfMonth = false) {
     const date = new Date();
+  // Ajusta a data para três meses atrás
+    date.setMonth(date.getMonth() - monthsAgo);
+
     if (startOfMonth) {
-        date.setDate(1); // Define o dia como 1 para começar do primeiro dia do mês
-    } else {
-        date.setDate(date.getDate() - n);
+      date.setDate(1); // Define o dia como 1 para começar do primeiro dia do mês
     }
 
-    //================================CONSULTA DE PEDIDOS POR DATA=================================/
     // Formatação da data
     const dd = String(date.getDate()).padStart(2, '0');
     const mm = String(date.getMonth() + 1).padStart(2, '0');
     const yyyy = date.getFullYear();
     return `${yyyy}-${mm}-${dd}`;
   }
-  const [inicio, setInicio] = useState(getDate(0,true))
+  const [inicio, setInicio] = useState(getDate(4,true))
   const [final, setFinal] = useState(getDate(0))
 
   const [pedidosPorData, setPedidosPorData] = useState(null);

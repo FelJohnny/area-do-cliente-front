@@ -1,16 +1,36 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styles from './Home.module.css'
 import Header from '../../Header/Header.jsx'
 import { CartesianGrid, Line, LineChart, XAxis, YAxis, ResponsiveContainer, Legend,Tooltip } from 'recharts'
 import { GlobalContext } from '../../../Context/GlobalContext';
-import DateRange from '../../Filters/DateRange/DateRange.jsx';
+
 const Home = () => {
   const { pedidosPorData } = useContext(GlobalContext);
+  const [dado, setDado]=useState(null)
+  const [dash,setDash]=useState(null)
   useEffect(()=>{
     if (Array.isArray(pedidosPorData)){
-      transformData(pedidosPorData) 
+      transformData(pedidosPorData)
     }
   },[pedidosPorData])
+
+  useEffect(()=>{
+    if(dado){
+      console.log(Object.keys(dado));
+      console.log(dado[Object.keys(dado)]);
+
+      const data = Object.keys(dado).map(chave => {
+        const pedidos = dado[chave];
+        return {
+          name: chave,
+          custo: pedidos.precoTotal,
+          pedidos: pedidos.quantidade,
+        };
+      });
+
+      setDash(data)
+    }
+  },[dado])
 
   function transformData(data){      
     const pedidosAgrupados = data.reduce((acc,item)=>{
@@ -29,24 +49,13 @@ const Home = () => {
       item.itens_pedido.forEach((produto) => {
         acc[chave].precoTotal += parseFloat(produto.preco);
       });
+      
       return acc
     },{})
-    console.log(pedidosAgrupados);
+    setDado(pedidosAgrupados)
+
   }
     
-
-    
-
-  const data =[
-    { name:'janeiro', uv:'400',pv: 2400, amt: 2400},
-    { name:'fevereiro', uv:'500',pv: 1000, amt: 2400},
-    { name:'março', uv:'400',pv: 1300, amt: 1000},
-    { name:'abril', uv:'400',pv: 2000, amt: 300},
-    { name:'maio', uv:'600',pv: 1000, amt: 0},
-    { name:'etc', uv:'400',pv: 1000, amt: 1800},
-  
-  ]
-
   return (
     <>
       <Header tela={'home'}/>
@@ -55,16 +64,15 @@ const Home = () => {
         <LineChart 
           height={300}
           width={800}
-          data={data}
+          data={dash}
           >
           <XAxis dataKey="name"/>
           <YAxis />
           <Legend/>
           <Tooltip/>
           <CartesianGrid stroke="#7a7a7a2b" strokeDasharray="5 5" />
-          <Line type="monotone" dataKey="uv" stroke="#A36AF9" strokeWidth={3}/>
-          <Line type="monotone" dataKey="pv" stroke="#FBCB21" strokeWidth={3}/>
-          <Line type="monotone" dataKey="amt" stroke="#000000" strokeWidth={3}/>
+          <Line type="monotone" dataKey="custo" stroke="#A36AF9" strokeWidth={3}/>
+          <Line type="monotone" dataKey="pedidos" stroke="#FBCB21" strokeWidth={3}/>
         </LineChart> 
       </ResponsiveContainer>
     </div>
