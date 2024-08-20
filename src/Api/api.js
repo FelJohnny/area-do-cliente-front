@@ -1,21 +1,21 @@
-const URL = "https://cliente.amalfis.com.br";
+const URL = "http://localhost:3333";
 
-export function POST_LOGIN(dataLogin) {
-    return {
-      url: `${URL}/api/auth/login`,
-      options: {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(dataLogin),
-      },
-    };
-}
+// export function POST_LOGIN(dataLogin) {
+//     return {
+//       url: `${URL}/api/auth/login`,
+//       options: {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(dataLogin),
+//       },
+//     };
+// }
 
-export function GET_AUTH_USER(codcli, token,page) {
+export function GET_AUTH_USER(id, token,page) {
     return {
-      url: `${URL}/api/pedido/cliente/${codcli}/?page=${page}`,
+      url: `${URL}/api/pedido/cliente/${id}/?page=${page}`,
       options: {
         method: "GET",
         headers: {
@@ -48,3 +48,42 @@ export function GET_AUTH_USER(codcli, token,page) {
       },
     };
   }
+
+  //--------------------------------NOVOS--------------------------------//
+
+  export function POST_LOGIN(dataLogin) {
+    return {
+      url: `${URL}/api/usuario/login`,
+      options: {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataLogin),
+      },
+    };
+}
+
+export function GET_USUARIO(id,token){
+  return {
+    url: `${URL}/api/usuario/${id}`,
+    options: {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token} `,
+      },
+    },
+  };
+}
+
+export function GET_PEDIDOS(id, token,page) {
+  return {
+    url: `${URL}/api/pedido/cliente/${id}/?page=${page}`,
+    options: {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token} `,
+      },
+    },
+  };
+}

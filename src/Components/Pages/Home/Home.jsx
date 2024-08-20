@@ -14,23 +14,23 @@ const Home = () => {
     }
   },[pedidosPorData])
 
-  useEffect(()=>{
-    if(dado){
-      console.log(Object.keys(dado));
-      console.log(dado[Object.keys(dado)]);
+  // useEffect(()=>{
+  //   if(dado){
+  //     console.log(Object.keys(dado));
+  //     console.log(dado[Object.keys(dado)]);
 
-      const data = Object.keys(dado).map(chave => {
-        const pedidos = dado[chave];
-        return {
-          name: chave,
-          custo: pedidos.precoTotal,
-          pedidos: pedidos.quantidade,
-        };
-      });
+  //     const data = Object.keys(dado).map(chave => {
+  //       const pedidos = dado[chave];
+  //       return {
+  //         name: chave,
+  //         custo: pedidos.precoTotal,
+  //         pedidos: pedidos.quantidade,
+  //       };
+  //     });
 
-      setDash(data)
-    }
-  },[dado])
+  //     setDash(data)
+  //   }
+  // },[dado])
 
   function transformData(data){      
     const pedidosAgrupados = data.reduce((acc,item)=>{
@@ -60,7 +60,7 @@ const Home = () => {
     <>
       <Header tela={'home'}/>
       <div className={styles.ContainerHome}>
-      <ResponsiveContainer height={400} width={"99%"}>
+      {/* <ResponsiveContainer height={400} width={"99%"}>
         <LineChart 
           height={300}
           width={800}
@@ -74,7 +74,7 @@ const Home = () => {
           <Line type="monotone" dataKey="custo" stroke="#A36AF9" strokeWidth={3}/>
           <Line type="monotone" dataKey="pedidos" stroke="#FBCB21" strokeWidth={3}/>
         </LineChart> 
-      </ResponsiveContainer>
+      </ResponsiveContainer> */}
     </div>
     </>
   )

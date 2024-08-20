@@ -38,23 +38,13 @@ export const GlobalStorage = ({ children }) => {
     //=============================================================================================/
   
   const [page, setPage] = useState(1);
-  const [userAuth, setUserAuth] = useState({
-    token: "",
-    usuario: null,
-    status: false,
-  });
 
   const [currentUser, setCurrentUser] = useState({})
 
   function logout() {
-    setUserAuth({
-        token: "",
-        usuario: null,
-        status: false,
-    });
-
+    setCurrentUser({status:false})
     window.localStorage.removeItem('token')
-    window.location.reload();
+    //window.location.reload();
   }
 
 
@@ -62,8 +52,6 @@ export const GlobalStorage = ({ children }) => {
   return (
     <GlobalContext.Provider
       value={{
-        userAuth,
-        setUserAuth,
         currentUser,
         setCurrentUser,
         logout,

@@ -1,15 +1,17 @@
 import styles from './MenuLateral.module.css'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import LogoAmalfis from '../../../images/logo.svg'
 import { useContext } from 'react'
 import { GlobalContext } from '../../../Context/GlobalContext'
 
 
 const MenuLateral = ({link1, link2,link3, text1, text2,text3}) => {
+  const navigate=  useNavigate()
 
   const {logout }=useContext(GlobalContext)
   
   function handleLogout(){
+    navigate('/')
     logout();
   }
   
