@@ -1,33 +1,10 @@
 const URL = "http://localhost:3333";
 
-// export function POST_LOGIN(dataLogin) {
-//     return {
-//       url: `${URL}/api/auth/login`,
-//       options: {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(dataLogin),
-//       },
-//     };
-// }
 
-export function GET_AUTH_USER(id, token,page) {
-    return {
-      url: `${URL}/api/pedido/cliente/${id}/?page=${page}`,
-      options: {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token} `,
-        },
-      },
-    };
-  }
 
-  export function GET_PEDIDOS_ON_DATE(codcli, token,dataInicio,dataFim) {
+  export function GET_PEDIDOS_ON_DATE(id, token,dataInicio,dataFim) {
     return {
-      url: `${URL}/api/pedido/cliente/${codcli}/date/?dataInicio=${dataInicio}&dataFim=${dataFim}`,
+      url: `${URL}/api/pedido/cliente/${id}/date/?dataInicio=${dataInicio}&dataFim=${dataFim}`,
       options: {
         method: "GET",
         headers: {

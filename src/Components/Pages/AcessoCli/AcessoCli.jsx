@@ -10,6 +10,7 @@ import { jwtDecode } from 'jwt-decode'
 import { GET_USUARIO } from '../../../Api/api.js'
 import useFetch from '../../../Hooks/useFetch.jsx'
 import PopUp from '../../PopUp/PopUp.jsx'
+import Gerenciar from '../Gerenciar/Gerenciar.jsx'
 
 const AcessoCli = () => {
 
@@ -60,10 +61,12 @@ const AcessoCli = () => {
         <MenuLateral
           link1={'home'}
           link2={'pedidos'}
-          link3={'/'}
+          link3={'gerenciar'}
+          link4={'/'}
           text1={'Home'}
           text2={'Pedidos'}
-          text3={'Sair'}
+          text3={'Gerenciar'}
+          text4={'Sair'}
         />
       </div>:''}
 
@@ -71,6 +74,7 @@ const AcessoCli = () => {
           <Routes >
               <Route path='home' element={<Home/>}/>
               <Route path='pedidos' element={<Pedidos />}/>
+              <Route path='gerenciar/*' element={<Gerenciar/>}/>
           </Routes>
         </div>
         {sizeMobile ? 

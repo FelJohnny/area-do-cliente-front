@@ -1,18 +1,18 @@
 import { Children, useContext, useRef, useState } from 'react'
 import styles from './ModalPedido.module.css'
-import Button from '../Button/Button';
-import {SEND_EMAIL_PED_CODCLI} from '../../Api/api.js'
-import { GlobalContext } from '../../Context/GlobalContext';
+import Button from '../../Button/Button.jsx';
+import {SEND_EMAIL_PED_CODCLI} from '../../../Api/api.js'
+import { GlobalContext } from '../../../Context/GlobalContext.jsx';
 import { jwtDecode } from 'jwt-decode';
-import useFetch from '../../Hooks/useFetch';
-import Loading from '../Loading/Loading';
+import useFetch from '../../../Hooks/useFetch.jsx';
+import Loading from '../../Loading/Loading.jsx';
 
 const ModalPedido = ({modal, setModal, currentPedido}) => {
   const modalContainer = useRef(null);
   const CloseContainerPost = useRef(null);
-  const { userAuth, logout,popUp, setPopUp } = useContext(GlobalContext);
+  const { userAuth, logout,popUp, setPopUp, currentUser } = useContext(GlobalContext);
   const { request, loading,error } = useFetch();
-
+  
   function closeModal(event) {
     event.preventDefault();
     if (

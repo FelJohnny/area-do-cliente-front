@@ -14,8 +14,8 @@ const DateRange = () => {
     async function pegaPedidosPorData(){
       const token = window.localStorage.getItem("token");
       if (token) {
-        const { codcli } = jwtDecode(token);
-        const { url, options } = GET_PEDIDOS_ON_DATE(codcli,token,inicio,final);
+        const { id } = jwtDecode(token);
+        const { url, options } = GET_PEDIDOS_ON_DATE(id,token,inicio,final);
         const {json} = await request(url, options);
         setPedidosPorData(json)
       }else{
