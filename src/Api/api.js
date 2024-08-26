@@ -59,8 +59,20 @@ export function GET_PEDIDOS(id, token,page) {
     options: {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${token} `,
+        Authorization: `Bearer ${token}`,
       },
     },
   };
+}
+
+export function GET_GRUPO_CLI(token){
+  return {
+    url: `${URL}/api/grupocli/`,
+    options:{
+      method: "GET",
+      headers:{
+        Authorization: `Bearer ${token}`,
+      }
+    }
+  }
 }

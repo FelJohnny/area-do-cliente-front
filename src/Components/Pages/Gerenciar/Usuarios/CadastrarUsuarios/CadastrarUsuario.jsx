@@ -39,12 +39,12 @@ const CadastrarUsuario = () => {
             <InputText {...senhaForm} label="Senha:" id="senha" type="password" />
             <InputText {...ConfirmarSenhaForm} label="Confirma Senha:" id="confirmsenha" type="password" />
             <div className={styles.buttons}>
-                <Button onClick={(e)=>abrirModal(e,'colecao')} children={'vincular Coleção'}/>
                 <Button onClick={(e)=>abrirModal(e,'clientes')} children={'vincular Clientes'}/>
+                <Button onClick={(e)=>abrirModal(e,'colecao')} children={'vincular Coleção'}/>
             </div>
         </form>
-        {modal.mod === 'colecao' && <ModalCreateUserColecao setModal={setModal} modal={modal} colecao={colecao} setColecao={setColecao}/>}
         {modal.mod === 'clientes' && <ModalCreateUserClientes setModal={setModal} modal={modal} clientes={clientes} setClientes={setClientes}/>}
+        {modal.mod === 'colecao' && <ModalCreateUserColecao setModal={setModal} modal={modal} colecao={colecao} setColecao={setColecao}/>}
     </div>
   )
 }

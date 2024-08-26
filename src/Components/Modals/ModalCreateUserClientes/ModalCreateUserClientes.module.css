@@ -43,3 +43,73 @@
 .close:hover{
     scale: 1.1;
 }
+
+.loading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 600px;
+}
+ select{
+    height: 40px;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    padding: 10px 10px;
+    font-size: 1rem;
+    background-color: #ececec;    
+}
+
+.inputText{
+    height: 40px;
+    padding: 9px 5px;
+    font-size: 1rem;
+    border-radius: 0 5px 5px 0;
+    padding: 10px;
+    border: none;
+    outline: none;
+    color: #242424;
+    background-color: #ececec;
+    transition: 0.3s;
+    width: 100%;
+}
+
+.filter{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.inputContainer {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative; /* Adicionado para posicionar a lista relativa ao input */
+    width: 100%; /* Garante que o input ocupe a largura completa disponível */
+}
+
+.listaGrupoCli {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    width: 100%; /* Garante que a lista tenha a mesma largura que o input */
+    max-height: 150px; /* Altura máxima para a lista */
+    overflow-y: auto; /* Adiciona rolagem se a lista for muito longa */
+    z-index: 1000; /* Garantir que a lista fique acima de outros elementos */
+    top: 40px; /* Posiciona a lista diretamente abaixo do input (ajuste conforme necessário) */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Adiciona sombra para destaque */
+}
+
+.suggestionList li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestionList li:hover {
+    background-color: #f0f0f0;
+}
+
+.containerInput{
+    display: flex;
+}

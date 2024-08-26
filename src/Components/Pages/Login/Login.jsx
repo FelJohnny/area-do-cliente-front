@@ -18,6 +18,7 @@ const Login = () => {
     const emailForm = useForm('email');
     const senhaForm = useForm()
     const navigate = useNavigate()
+    const [message,setMessage]=useState('')
     const { request, error, loading, data } = useFetch();
     const { userAuth, currentUser, setCurrentUser, logout } = useContext(GlobalContext);
 
@@ -31,6 +32,8 @@ const Login = () => {
           };
 
         async function postLogin(){
+          try {
+            
             const { url, options } = POST_LOGIN(dataLogin);
             const requestLogin = await request(url, options);
             if (requestLogin.response.ok) {
@@ -42,6 +45,10 @@ const Login = () => {
             }else {
               setToken(null);
             }
+          } catch (error) {
+            setMessage('Não é possivel realizar login no momento')
+            
+          }
         }
 
         async function authLogin(token) {
@@ -100,8 +107,9 @@ const Login = () => {
                     <InputText {...emailForm} label="Email" id="email" type="email" />
                     <InputText {...senhaForm} label="Senha" id="senha" type="password" />
                     <Button onClick={handleSubimit}>{currentUser.status ? 'Bem vindo' :'Entrar'}</Button>
-                    <p className={data && !loading ? styles.error : ''}>
-                    {data && !loading ? data.message : ''}
+                    <p className={data && !loading ? styles.error : '' || message&& styles.error}>
+                      {data && !loading ? data.message : ''}
+                      {message&& !loading ? message:''}
                     </p>
                     {loading? <Loading/> : <span></span>}
                 </form>

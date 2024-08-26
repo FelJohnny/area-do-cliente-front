@@ -1,19 +1,24 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styles from './ModalCreateUserColecao.module.css'
+
 
 const ModalCreateUserColecao = ({modal, setModal,colecao, setColecao}) => {
 
-    const CloseContainer = useRef(null);
-    const modalContainer = useRef(null);
-    function closeModal(event) {
-        event.preventDefault();
-        if (
-          event.target === modalContainer.current ||
-          event.target === CloseContainer.current
-        ){
-          setModal(!modal);
-        }
+
+
+  const CloseContainer = useRef(null);
+  const modalContainer = useRef(null);
+
+  function closeModal(event) {
+      event.preventDefault();
+      if (
+        event.target === modalContainer.current ||
+        event.target === CloseContainer.current
+      ){
+        setModal(!modal);
       }
+    }
+
 
   return (
     <div className={styles.containerModal} ref={modalContainer} onClick={closeModal}>
@@ -23,7 +28,7 @@ const ModalCreateUserColecao = ({modal, setModal,colecao, setColecao}) => {
             onClick={closeModal}
             className={styles.close}
           >X</button>
-          
+
         </section>
     </div>
   )
