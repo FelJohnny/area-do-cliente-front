@@ -88,3 +88,41 @@ export function GET_CLI_POR_GPCLI(token,grupocli){
     }
   }
 }
+
+export function GET_COLECAO_POR_CODIGO(token,codigo){
+  return {
+    url: `${URL}/api/colecao/${codigo}`,
+    options:{
+      method: "GET",
+      headers:{
+        Authorization: `Bearer ${token}`,
+      }
+    }
+  }
+}
+
+export function GET_COLECAO_POR_DESCRICAO(token,desc){
+  return {
+    url: `${URL}/api/colecao/descricao/${desc}`,
+    options:{
+      method: "GET",
+      headers:{
+        Authorization: `Bearer ${token}`,
+      }
+    }
+  }
+}
+
+export function CRIA_USUARIO(token,data){
+  return {
+    url: `${URL}/api/usuario/register`,
+    options:{
+      method: "POST",
+      headers:{
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }
+  }
+}

@@ -26,6 +26,7 @@ const ModalCreateUserClientes = ({ modal, setModal, clientes, setClientes }) => 
 
   const { request, loading } = useFetch();
 
+  //puxa grupo de clientes para listar no input
   useEffect(() => {
     async function PegaGrupoCli() {
       const token = window.localStorage.getItem('token');
@@ -42,6 +43,7 @@ const ModalCreateUserClientes = ({ modal, setModal, clientes, setClientes }) => 
     PegaGrupoCli();
   }, []);
 
+  //
   useEffect(() => {
     if (inputGrupoCliValue) {
       const filtered = listaGrupoCli.filter(item =>
@@ -60,12 +62,6 @@ const ModalCreateUserClientes = ({ modal, setModal, clientes, setClientes }) => 
         !inputContainerGrupoCliRef.current.contains(event.target)
       ) {
         setFilteredListaGpCli([]);
-      }
-      if (
-        inputContainerCodCliRef.current &&
-        !inputContainerCodCliRef.current.contains(event.target)
-      ) {
-        // Lógica para esconder o dropdown do CodCli, se necessário
       }
     }
 
@@ -228,7 +224,7 @@ const ModalCreateUserClientes = ({ modal, setModal, clientes, setClientes }) => 
                 ))}
               </div>
             </section>
-            <button className={styles.btnFinalizar}>finalizar</button>
+            <button className={styles.btnFinalizar} onClick={()=>setModal(!modal)}>finalizar</button>
           </>
         )}
       </section>

@@ -16,17 +16,19 @@
 .modal{
     background-color: white;
     width: 60%;
-    height: 90vh;
+    max-height: 90vh;
     padding: 36px;
     box-shadow: 0 0 5px 1px rgb(177, 177, 177);
-    position: relative;    
+    position: relative; 
+    overflow-y: auto;
 }
 
 .close {
     position: absolute;
-    top: -15px;
-    right: -15px;
+    top: 10px;
+    right: 10px;
     display: flex;
+    border-radius: 7px;
     justify-content: center;
     align-items: center;
     font-size: 1.7rem;
@@ -42,4 +44,173 @@
 
 .close:hover{
     scale: 1.1;
+}
+
+.loading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 600px;
+}
+
+.filters{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.containerInput{
+    display: grid;
+    justify-content: start;
+    gap: 5px;
+    padding: 5px;
+}
+
+.containerInput span{
+    font-size: 1.1rem;
+    font-weight: bold;
+    justify-self: self-start;
+}
+
+.containerInput button{
+    justify-self: self-end;
+}
+
+.containerInput2{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+select{
+    height: 40px;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    padding: 10px 10px;
+    font-size: 1rem;
+    background-color: #ececec;
+    cursor: pointer;
+}
+
+.li{
+    padding: 3px 0;
+}
+.li:hover{
+    cursor: pointer;
+    background-color: #ccc;
+    font-weight: bold;
+    
+}
+.inputText{
+    height: 40px;
+    padding: 9px 5px;
+    font-size: 1rem;
+    border-radius: 0 5px 5px 0;
+    padding: 10px;
+    border: none;
+    outline: none;
+    color: #242424;
+    background-color: #ececec;
+    transition: 0.3s;
+    width: 100%;
+}
+
+.inputText:focus, select:focus{
+    border: solid 1px var(--primary3);
+    transition: .3s;
+    background-color: white;
+    box-shadow: 0px 0px 2px 3px  rgba(1, 94, 138, 0.575);
+}
+
+
+.inputContainer {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative; /* Adicionado para posicionar a lista relativa ao input */
+    width: 100%; /* Garante que o input ocupe a largura completa disponível */
+}
+
+.listaGrupoCli {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    width: 100%; /* Garante que a lista tenha a mesma largura que o input */
+    max-height: 150px; /* Altura máxima para a lista */
+    overflow-y: auto; /* Adiciona rolagem se a lista for muito longa */
+    z-index: 1000; /* Garantir que a lista fique acima de outros elementos */
+    top: 40px; /* Posiciona a lista diretamente abaixo do input (ajuste conforme necessário) */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Adiciona sombra para destaque */
+}
+
+.suggestionList li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestionList li:hover {
+    background-color: #f0f0f0;
+}
+
+
+
+.btnBuscar, .btnFinalizar{
+    margin-top: 10px;
+    color: white;
+    border: none;
+    background-color: #01426A;
+    padding: 10px 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+    font-size: 1.1rem;
+}
+
+
+.btnBuscar:hover, .btnFinalizar:hover{
+    transform: scale(1.02);
+}
+
+.btnBuscar:disabled{
+    background-color: gray;
+    transform: none;
+    cursor: not-allowed;
+}
+
+.containerSection{
+    display: grid;
+    gap: 15px;
+    overflow: auto;
+}
+
+.containerResultado{
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    background-color: #66666670;
+    padding: 10px;
+    border-radius: 5px;
+    height: 200px;
+    overflow: auto;
+}
+.containerSection span{
+    justify-self: start;
+}
+
+.itemResultado{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    list-style: none;
+    height: 40px;
+    padding: 5px 10px;
+    background: #fffdfd;
+    border-radius: 5px;
+}
+
+.itemResultado:hover{
+    cursor: pointer;
+    background: #e9f6fd;
 }

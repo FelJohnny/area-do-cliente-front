@@ -68,7 +68,7 @@
 }
 
 .listaProd{
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 40vh;
 }
 
