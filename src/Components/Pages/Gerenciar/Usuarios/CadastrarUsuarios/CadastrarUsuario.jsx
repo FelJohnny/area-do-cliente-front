@@ -29,6 +29,8 @@ const CadastrarUsuario = () => {
         
     }
 
+    console.log(clientes);
+    
   return (
     <div className={styles.Container}>
 
@@ -39,8 +41,15 @@ const CadastrarUsuario = () => {
             <InputText {...senhaForm} label="Senha:" id="senha" type="password" />
             <InputText {...ConfirmarSenhaForm} label="Confirma Senha:" id="confirmsenha" type="password" />
             <div className={styles.buttons}>
-                <Button onClick={(e)=>abrirModal(e,'clientes')} children={'vincular Clientes'}/>
-                <Button onClick={(e)=>abrirModal(e,'colecao')} children={'vincular Coleção'}/>
+                <div className={styles.containerBtn}>
+                    <Button onClick={(e)=>abrirModal(e,'clientes')} children={'vincular Clientes'}/>
+                    {clientes.length > 0&& "vinculos ok"}
+                </div>
+                <div>
+                    <Button onClick={(e)=>abrirModal(e,'colecao')} children={'vincular Coleção'}/>
+                    {colecao.length > 0&& "vinculos ok"}
+
+                </div>
             </div>
         </form>
         {modal.mod === 'clientes' && <ModalCreateUserClientes setModal={setModal} modal={modal} clientes={clientes} setClientes={setClientes}/>}

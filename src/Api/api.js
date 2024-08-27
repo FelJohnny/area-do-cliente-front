@@ -76,3 +76,15 @@ export function GET_GRUPO_CLI(token){
     }
   }
 }
+
+export function GET_CLI_POR_GPCLI(token,grupocli){
+  return {
+    url: `${URL}/api/entidade/grupo/${grupocli}`,
+    options:{
+      method: "GET",
+      headers:{
+        Authorization: `Bearer ${token}`,
+      }
+    }
+  }
+}
