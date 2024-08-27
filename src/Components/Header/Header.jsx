@@ -2,17 +2,27 @@ import React, { useContext } from 'react'
 import styles from './Header.module.css'
 import { GlobalContext } from '../../Context/GlobalContext';
 import DateRange from '../Filters/DateRange/DateRange';
+import OptionsGerenciar from '../Filters/OptionsGerenciar/OptionsGerenciar';
 const Header = ({tela}) => {
 
-  const { userAuth,currentUser } = useContext(GlobalContext);
-
+  const { currentUser } = useContext(GlobalContext);
   
   return (
     <header className={styles.ContainerHeader}>
-      {tela==='home'? <DateRange/>: <h2>Meus pedidos</h2>}
+      <div className={styles.nav}>
+        {tela==='home'&& <DateRange/>}
+        {tela==='pedidos'&&<h2>Meus pedidos</h2>}
+        {tela==='gerenciar'&&
+        (<>
+          <h2>Gerenciar Sistema</h2>
+          <div>
+            <OptionsGerenciar/>
+          </div>
+        </>)
+        }
+      </div>
       <div className={styles.nomeCli}>
-        <p><span>Empresa:</span> {currentUser.nome && currentUser.nome}</p>
-        <p><span>CNPJ:</span> {currentUser.cnpj && currentUser.cnpj}</p>
+        <p><span>Usuario:</span> {currentUser.status && currentUser.usuario.nome}</p>
       </div>
     </header> 
   )

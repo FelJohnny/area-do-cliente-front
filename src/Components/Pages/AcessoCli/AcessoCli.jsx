@@ -7,13 +7,14 @@ import Pedidos from '../Pedidos/Pedidos.jsx'
 import { GlobalContext } from '../../../Context/GlobalContext.jsx'
 import MenuMobile from '../../Menus/MenuMobile/MenuMobile.jsx'
 import { jwtDecode } from 'jwt-decode'
-import { GET_AUTH_USER } from '../../../Api/api.js'
+import { GET_USUARIO } from '../../../Api/api.js'
 import useFetch from '../../../Hooks/useFetch.jsx'
 import PopUp from '../../PopUp/PopUp.jsx'
+import Gerenciar from '../Gerenciar/Gerenciar.jsx'
 
 const AcessoCli = () => {
 
-  const { setSizeMobile,sizeMobile, setUserAuth, setCurrentUser, logout, page, popUp } = useContext(GlobalContext);
+  const { setSizeMobile,sizeMobile, setUserAuth, setCurrentUser, logout, page, popUp,currentUser } = useContext(GlobalContext);
   const { request } = useFetch();
   const navigate = useNavigate();
 
@@ -22,24 +23,22 @@ const AcessoCli = () => {
     async function fetchValidaToken() {
       const token = window.localStorage.getItem("token");
       if (token) {
-        const { codcli } = jwtDecode(token);
-        const { url, options } = GET_AUTH_USER(codcli, token, page);
+        const { id } = jwtDecode(token);
+        const { url, options } = GET_USUARIO(id, token);
         const { response, json } = await request(url, options);
         if (response.ok) {
-          setUserAuth({ token, usuario: json, status: true });
-          setCurrentUser(json.pedidos.retorno[0].info_cliente);
-        } else {
-          setUserAuth({
-            token: "",
-            usuario: null,
-            status: false,
+          setCurrentUser({
+            usuario:json.usuario,
+            status: json.status,
+            token:token,
           });
-          setCurrentUser(null)
-          logout();          
+        } else {
+          navigate('/');
+          logout();
+
         }
       }else{
         navigate('/')
-        logout();          
       }
     }
     fetchValidaToken();
@@ -62,9 +61,11 @@ const AcessoCli = () => {
         <MenuLateral
           link1={'home'}
           link2={'pedidos'}
-          link3={'sair'}
+          // link3={'gerenciar'}
+          link3={'/'}
           text1={'Home'}
           text2={'Pedidos'}
+          // text3={'Gerenciar'}
           text3={'Sair'}
         />
       </div>:''}
@@ -73,13 +74,14 @@ const AcessoCli = () => {
           <Routes >
               <Route path='home' element={<Home/>}/>
               <Route path='pedidos' element={<Pedidos />}/>
+              {/* <Route path='gerenciar/*' element={<Gerenciar/>}/> */}
           </Routes>
         </div>
         {sizeMobile ? 
         <MenuMobile
           link1={'home'}
           link2={'pedidos'}
-          link3={'sair'}
+          link3={'/'}
           text1={'Home'}
           text2={'Pedidos'}
           text3={'Sair'}

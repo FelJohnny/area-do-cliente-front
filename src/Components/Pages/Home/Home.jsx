@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styles from './Home.module.css'
 import Header from '../../Header/Header.jsx'
+import Loading from '../../Loading/Loading.jsx'
 import { CartesianGrid, Line, LineChart, XAxis, YAxis, ResponsiveContainer, Legend,Tooltip } from 'recharts'
 import { GlobalContext } from '../../../Context/GlobalContext';
 
@@ -16,9 +17,7 @@ const Home = () => {
 
   useEffect(()=>{
     if(dado){
-      console.log(Object.keys(dado));
-      console.log(dado[Object.keys(dado)]);
-
+      // console.log(Object.keys(dado));
       const data = Object.keys(dado).map(chave => {
         const pedidos = dado[chave];
         return {
@@ -60,21 +59,27 @@ const Home = () => {
     <>
       <Header tela={'home'}/>
       <div className={styles.ContainerHome}>
-      <ResponsiveContainer height={400} width={"99%"}>
-        <LineChart 
-          height={300}
-          width={800}
-          data={dash}
-          >
-          <XAxis dataKey="name"/>
-          <YAxis />
-          <Legend/>
-          <Tooltip/>
-          <CartesianGrid stroke="#7a7a7a2b" strokeDasharray="5 5" />
-          <Line type="monotone" dataKey="custo" stroke="#A36AF9" strokeWidth={3}/>
-          <Line type="monotone" dataKey="pedidos" stroke="#FBCB21" strokeWidth={3}/>
-        </LineChart> 
-      </ResponsiveContainer>
+      {dash && dash.length > 0 ? (
+        <ResponsiveContainer height={400} width={"99%"}>
+          <LineChart 
+            height={300}
+            width={800}
+            data={dash}
+            >
+            <XAxis dataKey="name"/>
+            <YAxis />
+            <Legend/>
+            <Tooltip/>
+            <CartesianGrid stroke="#7a7a7a2b" strokeDasharray="5 5" />
+            <Line type="monotone" dataKey="custo" stroke="#A36AF9" strokeWidth={3}/>
+            <Line type="monotone" dataKey="pedidos" stroke="#FBCB21" strokeWidth={3}/>
+          </LineChart> 
+        </ResponsiveContainer>
+      ) : (
+        <div className={styles.loading}>
+          <Loading/>
+        </div>
+      )}
     </div>
     </>
   )

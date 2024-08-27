@@ -1,0 +1,30 @@
+.Container{
+    display: grid;
+}
+
+.Container h2{
+    padding-top: 20px;
+    margin: 0 auto;
+    font-size: 25px;
+    font-weight: bold;
+
+}
+
+.form {
+    margin: 0 auto;
+    width: 50%;
+}
+
+.buttons{
+    margin: 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.containerBtn{
+    display: grid;
+    justify-content: center;
+    align-items: start;
+}

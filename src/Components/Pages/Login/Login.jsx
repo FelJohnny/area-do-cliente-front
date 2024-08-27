@@ -5,7 +5,7 @@ import InputText from '../../Forms/Input/InputText.jsx';
 import Loading from '../../Loading/Loading.jsx'
 import Button from '../../Button/Button.jsx'
 import LogoAmalfis from '../../../images/logo.svg'
-import { GET_AUTH_USER, POST_LOGIN } from '../../../Api/api.js';
+import { GET_USUARIO, POST_LOGIN } from '../../../Api/api.js';
 import useFetch from '../../../Hooks/useFetch.jsx';
 import { jwtDecode } from 'jwt-decode';
 import { GlobalContext } from '../../../Context/GlobalContext.jsx';
@@ -18,48 +18,56 @@ const Login = () => {
     const emailForm = useForm('email');
     const senhaForm = useForm()
     const navigate = useNavigate()
+    const [message,setMessage]=useState('')
     const { request, error, loading, data } = useFetch();
-    const { userAuth, setUserAuth,setCurrentUser, setPage,page, logout } = useContext(GlobalContext);
+    const { userAuth, currentUser, setCurrentUser, logout } = useContext(GlobalContext);
 
 
     async function handleSubimit(e){ 
-        e.preventDefault();
-        if (emailForm.validate() && senhaForm.validate()) {
-            const dataLogin = {
-              email: emailForm.value,
-              senha: senhaForm.value,
-            };
+      e.preventDefault();
+      if (emailForm.validate() && senhaForm.validate()) {
+          const dataLogin = {
+            email: emailForm.value,
+            senha: senhaForm.value,
+          };
 
-            async function postLogin(){
-                const { url, options } = POST_LOGIN(dataLogin);
-                const requestLogin = await request(url, options);
-                if (requestLogin.response.ok) {
-                    const token = requestLogin.json.token;
-                    setToken(token);
-                    window.localStorage.setItem("token", token);
-                    authLogin(token, requestLogin.json.id);
-                    setTimeout(()=>{
-                        navigate('/area-cli/home')
-                    },1000)
-                }else {
-                    setToken(null);
-                }
+        async function postLogin(){
+          try {
+            
+            const { url, options } = POST_LOGIN(dataLogin);
+            const requestLogin = await request(url, options);
+            if (requestLogin.response.ok) {
+              const token = requestLogin.json.token;
+              setToken(token);
+              window.localStorage.setItem("token", token);
+              authLogin(token);
+              navigate('/area-cli/home')
+            }else {
+              setToken(null);
             }
-
-            async function authLogin(token) {
-                const { codcli } = jwtDecode(token);
-                setPage(1)
-                const { url, options } = GET_AUTH_USER(codcli, token, page);
-                const { response, json } = await request(url, options);
-                if (!response.ok) {
-                  setUserAuth({ token: "", usuario: null, status: false });
-                } else {
-                  setUserAuth({ token: token, usuario: json, status: true });
-                }
-            }
-
-            postLogin();
+          } catch (error) {
+            setMessage('Não é possivel realizar login no momento')
+            
+          }
         }
+
+        async function authLogin(token) {
+            const { id } = jwtDecode(token);
+            const { url, options } = GET_USUARIO(id, token);
+            const { response, json } = await request(url, options);
+            if (!response.ok) {
+              setCurrentUser(null)
+            } else {
+              setCurrentUser({
+                usuario:json.usuario,
+                status: json.status,
+                token:token,
+              });
+            }
+        }
+
+        postLogin();
+      }
     }
 
 
@@ -67,25 +75,22 @@ const Login = () => {
       async function fetchValidaToken() {
         const token = window.localStorage.getItem("token");
         if (token) {
-          const { codcli } = jwtDecode(token);
-          const { url, options } = GET_AUTH_USER(codcli, token,page);
+          const { id } = jwtDecode(token);
+          const { url, options } = GET_USUARIO(id, token);
           const { response, json } = await request(url, options);
           if (response.ok) {
-            setUserAuth({ token, usuario: json, status: true });
-            setCurrentUser(json.pedidos.retorno[0].info_cliente);
+            setCurrentUser({
+              usuario:json.usuario,
+              status: json.status,
+              token:token,
+            });
             navigate('/area-cli/home')
           } else {
-            setUserAuth({
-              token: "",
-              usuario: null,
-              status: false,
-            });
-            setCurrentUser(null)
-            //logout();          
+            navigate('/')
+            logout();
           }
         }else{
           navigate('/')
-          
         }
       }
       fetchValidaToken();
@@ -101,9 +106,10 @@ const Login = () => {
                     <img src={LogoAmalfis} alt="Logo Amalfis" />
                     <InputText {...emailForm} label="Email" id="email" type="email" />
                     <InputText {...senhaForm} label="Senha" id="senha" type="password" />
-                    <Button onClick={handleSubimit}>{userAuth.status ? 'Bem vindo' :'Entrar'}</Button>
-                    <p className={data && !loading ? styles.error : ''}>
-                    {data && !loading ? data.message : ''}
+                    <Button onClick={handleSubimit}>{currentUser.status ? 'Bem vindo' :'Entrar'}</Button>
+                    <p className={data && !loading ? styles.error : '' || message&& styles.error}>
+                      {data && !loading ? data.message : ''}
+                      {message&& !loading ? message:''}
                     </p>
                     {loading? <Loading/> : <span></span>}
                 </form>

@@ -4,13 +4,13 @@ import Header from '../../Header/Header'
 import { GlobalContext } from '../../../Context/GlobalContext';
 import Loading from '../../Loading/Loading.jsx'
 import Button from '../../Button/Button.jsx'
-import ModalPedido from '../../ModalPedido/ModalPedido.jsx';
+import ModalPedido from '../../Modals/ModalPedido/ModalPedido.jsx';
 import useFetch from '../../../Hooks/useFetch.jsx';
-import { GET_AUTH_USER } from '../../../Api/api.js';
+import { GET_PEDIDOS } from '../../../Api/api.js';
 import { jwtDecode } from 'jwt-decode';
 
 const Pedidos = () => {
-  const { userAuth,page, setPage,setUserAuth, setSizeMobile,sizeMobile,} = useContext(GlobalContext);
+  const { page, setPage,setSizeMobile,sizeMobile,} = useContext(GlobalContext);
 
   const [pedidos, setPedidos] = useState([]);
   const [currentPedido, setCurrentPedido]=useState();
@@ -19,28 +19,36 @@ const Pedidos = () => {
   const [lasPage, setLastPage]= useState('');
 
   useEffect(()=>{
-    if(!userAuth.status){
-      setLoading(true)
+    async function pegaPedidos() {
+      const token = window.localStorage.getItem("token");
+        if (token) {
+          const { id } = jwtDecode(token);
+          const { url, options } = GET_PEDIDOS(id, token,page);
+          const { response, json } = await request(url, options);
+          if (response.ok) {
+            setPedidos(json.pedidos.retorno)
+            setLastPage(json.paginacao.total_Pages)
+          } else {
+            navigate('/')
+          }
+        }else{
+          logout();
+          navigate('/')
+        }
     }
+    pegaPedidos()
   },[])
 
-  useEffect(()=>{
-    if(userAuth.status){
-      setPedidos(userAuth.usuario.pedidos.retorno)
-      setLastPage(userAuth.usuario.paginacao.total_Pages)
-      setLoading(false)
-    }
-  },[userAuth])
-
-
   async function paginacao(page){
+    const token = window.localStorage.getItem("token");
     setLoading(true)
     setPage(page)
-    const { codcli } = jwtDecode(userAuth.token);
-    const { url, options } = GET_AUTH_USER(codcli, userAuth.token, page);
+    const { id } = jwtDecode(token);
+    const { url, options } = GET_PEDIDOS(id, token, page);
     const { response, json } = await request(url, options);
     if (response.ok) {
-      setUserAuth({ token:userAuth.token, usuario: json, status: true });
+      setPedidos(json.pedidos.retorno)
+      setLastPage(json.paginacao.total_Pages)
     }
   }
 
@@ -51,7 +59,7 @@ const Pedidos = () => {
 
   return (
     <div className={styles.containerPedidos}>
-        <Header/>
+        <Header tela={'pedidos'}/>
         <section>
           <div className={styles.nomeColuna}>
             <span>ID</span>
@@ -65,7 +73,7 @@ const Pedidos = () => {
               <Loading/>
             </div>
           )}
-          {userAuth.status&& !loading&& pedidos.map((pedido, index) => (
+          {pedidos&& !loading&& pedidos.map((pedido, index) => (
           <div key={index} className={`${styles.rowPedido} animation-left-rigth-suav`}>
             <span>{pedido.numero}</span>
             <span>{pedido.ped_cli}</span>
