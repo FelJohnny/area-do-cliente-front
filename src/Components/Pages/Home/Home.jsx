@@ -17,7 +17,7 @@ const Home = () => {
 
   useEffect(()=>{
     if(dado){
-      console.log(Object.keys(dado));
+      // console.log(Object.keys(dado));
       const data = Object.keys(dado).map(chave => {
         const pedidos = dado[chave];
         return {

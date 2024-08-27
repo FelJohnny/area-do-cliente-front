@@ -61,12 +61,12 @@ const AcessoCli = () => {
         <MenuLateral
           link1={'home'}
           link2={'pedidos'}
-          link3={'gerenciar'}
-          link4={'/'}
+          // link3={'gerenciar'}
+          link3={'/'}
           text1={'Home'}
           text2={'Pedidos'}
-          text3={'Gerenciar'}
-          text4={'Sair'}
+          // text3={'Gerenciar'}
+          text3={'Sair'}
         />
       </div>:''}
 
@@ -74,7 +74,7 @@ const AcessoCli = () => {
           <Routes >
               <Route path='home' element={<Home/>}/>
               <Route path='pedidos' element={<Pedidos />}/>
-              <Route path='gerenciar/*' element={<Gerenciar/>}/>
+              {/* <Route path='gerenciar/*' element={<Gerenciar/>}/> */}
           </Routes>
         </div>
         {sizeMobile ? 

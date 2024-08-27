@@ -96,7 +96,7 @@ const ModalPedido = ({modal, setModal, currentPedido}) => {
               </div>
             </div>
             <div className={styles.buttons}>
-              <Button onClick={sendPedidoEmail}>Receber Email</Button>
+              {/* <Button onClick={sendPedidoEmail}>Receber Email</Button> */}
             </div>
             <div className={styles.nomeColuna}>
                 <span>NOME</span>
