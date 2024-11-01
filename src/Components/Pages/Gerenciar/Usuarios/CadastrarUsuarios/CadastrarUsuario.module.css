@@ -1,18 +1,31 @@
 .Container{
     display: grid;
+    overflow-y: auto;
+    justify-content: center;
 }
 
-.Container h2{
+.tituloPage{
     padding-top: 20px;
     margin: 0 auto;
-    font-size: 25px;
+    font-size: 2.5rem;
     font-weight: bold;
+}
+
+.containerForm{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 10px;
+    
 
 }
 
 .form {
-    margin: 0 auto;
-    width: 50%;
+    display: grid;
+    gap: 10px;
+    padding: 10px;
 }
 
 .buttons{
@@ -27,4 +40,61 @@
     display: grid;
     justify-content: center;
     align-items: start;
+}
+
+.permissaoItem{
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: rgb(183, 210, 245);
+    border-radius: 5px;
+}
+.nomePermissao{
+    font-weight: bold;
+    
+}
+
+.checkbox{
+    cursor: pointer;
+}
+
+.checkbox:hover{
+    transition: 0.5s;
+}   
+
+.crudCheckboxes{
+    margin: 5px 0;
+}
+
+.crudCheckboxes > label{
+    text-align: start;
+    margin-right:10px ;
+}
+.crudCheckboxes > label:hover{
+    cursor: pointer;
+    color: rgb(1, 67, 143);
+}
+
+.observacao{
+    width: 400px;
+    max-height:500px ;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: rgb(171, 204, 241);
+}
+
+.TituloObservacao{
+    color: black;
+}
+
+.subTituloObservacao{
+    padding-bottom: 15px;
+}
+
+.Label{
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.bold{
+    font-weight: bold;
 }

@@ -1,0 +1,110 @@
+.Container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  
+}
+
+.tituloPage {
+  width: 100%;
+  margin-top: 15px;
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.subContainer{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+  margin-bottom: 25px ;
+  justify-content: center;
+  width: 50%;
+  border: 1px solid rgba(134, 134, 134, 0.253);
+  border-radius: 7px;
+}
+
+.containerNomeColumn{
+  display: flex;
+  width: 90%;
+  padding: 10px;
+  gap: 30px;
+
+
+}
+
+.nomeColumn{
+  color: black;
+  font-weight: 500;
+  padding: 0 10px;
+  width: 250px ;
+  margin-left: 10px;
+}
+
+.nomeCnpj{
+  color: black;
+  font-weight: 500;
+  padding: 0 10px;
+  width: 150px ;  
+}
+
+.empresas{
+  display: flex;
+  flex-wrap: wrap;
+  width: 90%;
+  padding: 10px;
+  align-items: start;
+  gap: 15px;
+  height: 600px;
+  overflow-y: auto;
+}
+
+.empresaRow{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  
+  gap: 10px;
+  width: 100%;
+  min-height: 50px;
+  padding: 15px 10px;
+  border-radius: 5px;
+  background-color: #eeeeee;
+  box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+}
+
+.nomeEmpresa{
+  width: 250px ;
+  overflow: hidden;
+}
+
+.cnpjEmpresa{
+  width: 150px ;  
+}
+
+.acoesbtn{
+  display: flex;
+}
+
+.usuariosColumn{
+  min-width: 500px;
+  height: 600px;
+  overflow-y: auto;
+  
+}
+
+.descricaoEmpresa{
+  width: 100%;
+  padding: 5px;
+  background-color: rgb(197, 197, 197);
+  border-radius: 5px;
+}
+
+.descricaoEmpresa > p{
+  margin-bottom: 5px;
+}
+
+.bold{
+  font-weight: bold;
+}

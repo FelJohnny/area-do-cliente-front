@@ -176,7 +176,6 @@ a {
   animation: forwards left-rigth 0.3s;
 }
 
-
 @keyframes left-rigth {
   0% {
     transform: translateX(-15px);
@@ -187,4 +186,101 @@ a {
     transform: initial;
     
   }
+}
+
+.animeDown{
+  transition: 0.5s;
+  animation: animeDown .5s ease-in-out; 
+}
+
+@keyframes animeDown{
+  0%{
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  100%{
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+
+.top-to-down-sequence > * {
+  animation: top-to-down-sequence .3s ease-in-out backwards;
+}
+
+.top-to-down-sequence > *:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.top-to-down-sequence > *:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.top-to-down-sequence > *:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.top-to-down-sequence > *:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.top-to-down-sequence > *:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+.top-to-down-sequence > *:nth-child(6) {
+  animation-delay: 0.6s;
+}
+
+.top-to-down-sequence > *:nth-child(7) {
+  animation-delay: 0.7s;
+}
+
+.top-to-down-sequence > *:nth-child(8) {
+  animation-delay: 0.8s;
+}
+
+.top-to-down-sequence > *:nth-child(9) {
+  animation-delay: 0.9s;
+}
+
+.top-to-down-sequence > *:nth-child(10) {
+  animation-delay: 0.10s;
+}
+.top-to-down-sequence > *:nth-child(11) {
+  animation-delay: 0.11s;
+
+}
+.top-to-down-sequence > *:nth-child(12) {
+  animation-delay: 0.12s;
+}
+
+@keyframes top-to-down-sequence {
+  0% {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+
+/* ------------SCROLL BAR------------*/
+
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: #e7e7e7;
+  border: 1px solid #cacaca;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #01426A;
 }

@@ -1,4 +1,4 @@
-const URL = "https://cliente.amalfis.com.br";
+const URL = "http://localhost:3333";
 
 
 
@@ -27,6 +27,10 @@ const URL = "https://cliente.amalfis.com.br";
   }
 
   //--------------------------------NOVOS--------------------------------//
+
+
+
+//--------------------------------USUARIO--------------------------------//
 
   export function POST_LOGIN(dataLogin) {
     return {
@@ -125,4 +129,149 @@ export function CRIA_USUARIO(token,data){
       body: JSON.stringify(data),
     }
   }
+}
+
+//--------------------------------ROLES--------------------------------//
+export function GET_ROLES(token){
+  return {
+    url: `${URL}/api/roles/`,
+    options:{
+      method: "GET",
+      headers:{
+        Authorization: `Bearer ${token}`,
+      }
+    }
+  }
+}
+
+//--------------------------------PERMISSOES--------------------------------//
+export function GET_PERMISSOES(token){
+  return {
+    url: `${URL}/api/permissoes/`,
+    options:{
+      method: "GET",
+      headers:{
+        Authorization: `Bearer ${token}`,
+      }
+    }
+  }
+}
+
+//-----------------------PERMISSOES POR ROLE-----------------------//
+export function GET_PERMISSOES_BY_ROLE(token, roleId) {
+  return {
+    url: `${URL}/api/roles/${roleId}/permissoes`,
+    options: {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  };
+}
+
+//------------------------------- EMPRESAS --------------------------------//
+
+export function CRIA_EMPRESA(token, dataEmpresa) {
+  return {
+    url: `${URL}/api/empresas`,
+    options: {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataEmpresa),
+    },
+  };
+}
+
+export function GET_EMPRESAS(token) {
+  return {
+    url: `${URL}/api/empresas`,
+    options: {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  };
+}
+
+export function GET_EMPRESA_BY_ID(token, id) {
+  return {
+    url: `${URL}/api/empresas/${id}`,
+    options: {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  };
+}
+
+export function DELETE_EMPRESA(token, id) {
+  return {
+    url: `${URL}/api/empresas/${id}`,
+    options: {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  };
+}
+
+export function UPDATE_EMPRESA(token, id, dataEmpresa) {
+  return {
+    url: `${URL}/api/empresas/${id}`,
+    options: {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataEmpresa),
+    },
+  };
+}
+
+//------------------------------ USUARIOS_EMPRESA ----------------------------//
+
+export function GET_USUARIOS_BY_EMPRESA(token, empresaId) {
+  return {
+    url: `${URL}/api/empresas/${empresaId}/usuarios`,
+    options: {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  };
+}
+
+export function DELETE_USUARIO_FROM_EMPRESA(token, empresaId, usuarioId) {
+  return {
+    url: `${URL}/api/empresas/${empresaId}/usuarios/${usuarioId}`,
+    options: {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  };
+}
+
+export function UPDATE_USUARIO_FROM_EMPRESA(token, empresaId, usuarioId, dataUsuario) {
+  return {
+    url: `${URL}/api/empresas/${empresaId}/usuarios/${usuarioId}`,
+    options: {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataUsuario),
+    },
+  };
 }

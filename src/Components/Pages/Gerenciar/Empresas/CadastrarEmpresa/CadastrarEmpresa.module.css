@@ -1,0 +1,48 @@
+.Container {
+  display: grid;
+  overflow-y: auto;
+  justify-content: center;
+}
+
+.tituloPage {
+  padding-top: 20px;
+  margin: 0 auto;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.containerForm {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 10px;
+}
+
+.form {
+  display: grid;
+  gap: 10px;
+  padding: 10px;
+}
+
+.observacao {
+  width: 400px;
+  max-height: 500px;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: rgb(171, 204, 241);
+  margin-top: 20px;
+}
+
+.TituloObservacao {
+  color: black;
+}
+
+.subTituloObservacao {
+  padding-bottom: 15px;
+}
+
+.bold {
+  font-weight: bold;
+}
