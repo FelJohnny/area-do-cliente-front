@@ -3,68 +3,60 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
-  
 }
 
 .tituloPage {
   width: 100%;
-  margin-top: 15px;
+  margin-top: 1.5rem;
   text-align: center;
   font-size: 2.5rem;
   font-weight: bold;
 }
 
-.subContainer{
+.subContainer {
   display: flex;
   flex-wrap: wrap;
   padding: 20px;
-  margin-bottom: 25px ;
+  margin-bottom: 25px;
   justify-content: center;
-  width: 50%;
-  border: 1px solid rgba(134, 134, 134, 0.253);
+  width: 100%;
+  max-width: 1000px;
   border-radius: 7px;
 }
 
-.containerNomeColumn{
+.containerNomeColumn {
   display: flex;
-  width: 90%;
+  width: 100%;
   padding: 10px;
   gap: 30px;
-
-
+  justify-content: space-between;
 }
 
-.nomeColumn{
+.nomeColumn,
+.nomeCnpj {
   color: black;
   font-weight: 500;
   padding: 0 10px;
-  width: 250px ;
-  margin-left: 10px;
+  width: 250px;
+  flex: 1;
 }
 
-.nomeCnpj{
-  color: black;
-  font-weight: 500;
-  padding: 0 10px;
-  width: 150px ;  
-}
-
-.empresas{
+.empresas {
   display: flex;
-  flex-wrap: wrap;
-  width: 90%;
+  flex-direction: column;
+  width: 100%;
   padding: 10px;
   align-items: start;
   gap: 15px;
-  height: 600px;
+  max-height: 600px;
   overflow-y: auto;
 }
 
-.empresaRow{
+.empresaRow {
   display: flex;
   flex-wrap: wrap;
-  justify-content: start;
-  
+  justify-content: space-between;
+  align-items: center;
   gap: 10px;
   width: 100%;
   min-height: 50px;
@@ -72,39 +64,148 @@
   border-radius: 5px;
   background-color: #eeeeee;
   box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
-.nomeEmpresa{
-  width: 250px ;
+.empresaRow:hover {
+  transition: 1s;
+  background-color: rgb(245, 244, 244);
+  box-shadow: inset 0 0 0 1px #050e85;
+}
+
+.nomeEmpresa {
+  width: 250px;
   overflow: hidden;
+  font-size: 1.2rem;
+  flex: 1;
 }
 
-.cnpjEmpresa{
-  width: 150px ;  
+.cnpjEmpresa {
+  width: 150px;
+  flex: 1;
 }
 
-.acoesbtn{
+.acoesbtn {
   display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  flex: 1;
 }
 
-.usuariosColumn{
+.buttonRow {
+  background-color: rgb(29, 102, 161);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.buttonRow:active {
+  box-shadow: inset 0 0 0 2px #000000;
+  background-color: rgb(15, 65, 105);
+}
+
+.buttonRowDelete {
+  background-color: rgb(207, 47, 47);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.buttonRowDelete:active {
+  background-color: rgb(143, 27, 27);
+}
+
+.usuariosColumn {
   min-width: 500px;
   height: 600px;
   overflow-y: auto;
-  
 }
 
-.descricaoEmpresa{
+.descricaoEmpresa {
   width: 100%;
   padding: 5px;
   background-color: rgb(197, 197, 197);
   border-radius: 5px;
 }
 
-.descricaoEmpresa > p{
-  margin-bottom: 5px;
+.descricaoEmpresa > p {
+  margin-bottom: 8px;
 }
 
-.bold{
+.bold {
   font-weight: bold;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .subContainer {
+    padding: 10px;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .containerNomeColumn {
+    display: none;
+  }
+
+  .empresaRow {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .nomeEmpresa,
+  .cnpjEmpresa {
+    width: 100%;
+    text-align: left;
+    font-size: 1.1rem;
+  }
+
+  .acoesbtn {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .buttonRow,
+  .buttonRowDelete {
+    width: auto;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+
+  .tituloPage {
+    font-size: 2rem;
+  }
+
+  .descricaoEmpresa {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tituloPage {
+    font-size: 1.8rem;
+  }
+
+  .empresaRow {
+    padding: 8px;
+  }
+
+  .buttonRow,
+  .buttonRowDelete {
+    font-size: 0.8rem;
+    padding: 8px;
+  }
+
+  .nomeEmpresa,
+  .cnpjEmpresa {
+    font-size: 1rem;
+  }
 }

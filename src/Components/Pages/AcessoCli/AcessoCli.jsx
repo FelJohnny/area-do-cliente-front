@@ -11,10 +11,13 @@ import { GET_USUARIO } from '../../../Api/api.js';
 import useFetch from '../../../Hooks/useFetch.jsx';
 import PopUp from '../../PopUp/PopUp.jsx';
 import Gerenciar from '../Gerenciar/Gerenciar.jsx';
+import ModalUsuariosEmpresa from '../../Modals/ModalEmpresa/ModalUsuariosEmpresa/ModalUsuariosEmpresa.jsx';
+import ModalConfirmaDelete from '../../Modals/ModalEmpresa/ModalConfirmaDelete/ModalConfirmaDelete.jsx';
+import ModalEditaEmpresa from '../../Modals/ModalEmpresa/ModalEditaEmpresa/ModalEditaEmpresa.jsx';
 
 
 const AcessoCli = () => {
-  const { setSizeMobile, sizeMobile, setCurrentUser, logout, popUp, currentUser } = useContext(GlobalContext);
+  const { setSizeMobile, sizeMobile, setCurrentUser, logout, popUp, currentUser, modal} = useContext(GlobalContext);
   const { request } = useFetch();
   const navigate = useNavigate();
 
@@ -97,6 +100,10 @@ const AcessoCli = () => {
       <PopUp status={popUp.status} color={popUp.color}>
         {popUp.children}
       </PopUp>
+      {modal.status&& modal.nome==='empresaUsuario'&&<ModalUsuariosEmpresa/>}
+      {modal.status&& modal.nome==='deletaEmpresa'&&<ModalConfirmaDelete/>}
+      {modal.status&& modal.nome==='editaEmpresa'&&<ModalEditaEmpresa/>}
+
     </div>
   );
 };

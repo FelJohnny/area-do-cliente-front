@@ -45,6 +45,20 @@ const URL = "http://localhost:3333";
     };
 }
 
+// Função para buscar todos os usuários
+export function GET_USUARIOS(token) {
+  return {
+    url: `${URL}/api/usuarios`,
+    options: {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  };
+}
+
+
 export function GET_USUARIO(id,token){
   return {
     url: `${URL}/api/usuario/${id}`,
@@ -130,6 +144,32 @@ export function CRIA_USUARIO(token,data){
     }
   }
 }
+
+export function DELETE_USUARIO(token, usuarioId) {
+  return {
+    url: `${URL}/api/usuario/${usuarioId}`,  // Verifique se o endpoint está correto
+    options: {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  };
+}
+
+export const UPDATE_USUARIO = (token, userId, data) => {
+  return {
+    url: `${URL}/api/usuario/${userId}`,
+    options: {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    },
+  };
+};
 
 //--------------------------------ROLES--------------------------------//
 export function GET_ROLES(token){
@@ -272,6 +312,32 @@ export function UPDATE_USUARIO_FROM_EMPRESA(token, empresaId, usuarioId, dataUsu
         "Content-Type": "application/json",
       },
       body: JSON.stringify(dataUsuario),
+    },
+  };
+}
+
+export function ADD_USUARIO_TO_EMPRESA(token, empresaId, usuarioId) {
+  return {
+    url: `${URL}/api/empresas/${empresaId}/usuarios/${usuarioId}`,
+    options: {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    },
+  };
+}
+
+
+export function GET_USUARIOS_DISPONIVEIS(token) {
+  return {
+    url: `${URL}/api/usuarios/disponiveis`,  // URL correta para a rota de usuários disponíveis
+    options: {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
   };
 }

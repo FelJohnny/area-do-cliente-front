@@ -47,6 +47,12 @@ export const GlobalStorage = ({ children }) => {
     //window.location.reload();
   }
 
+  const [modal, setModal]=useState({
+    status: false,
+    nome: '',
+    data:null,
+  })
+
 
 
   return (
@@ -66,7 +72,8 @@ export const GlobalStorage = ({ children }) => {
         final,
         setFinal,
         pedidosPorData,
-        setPedidosPorData
+        setPedidosPorData,
+        modal, setModal
       }}
     >
       {children}

@@ -1,47 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import { GET_EMPRESAS, GET_USUARIOS_BY_EMPRESA } from '../../../../../Api/api';
+import React, { useContext, useEffect, useState } from 'react';
+import { GET_EMPRESAS } from '../../../../../Api/api';
 import useFetch from '../../../../../Hooks/useFetch';
 import styles from './ListarEmpresas.module.css'
+import { GlobalContext } from '../../../../../Context/GlobalContext';
 
 const ListarEmpresas = () => {
   const [empresas, setEmpresas] = useState([]);
-  const [usuarios, setUsuarios] = useState([]);
-  const [notFound, setNotFound] = useState('');
   const { request } = useFetch();
+  const { setModal, modal } = useContext(GlobalContext);
+
 
   useEffect(() => {
+    
     const fetchEmpresas = async () => {
       const token = window.localStorage.getItem('token');
       const { url, options } = GET_EMPRESAS(token);
       const { response, json } = await request(url, options);
       
+      console.log(json);
       if (response.ok) {
         setEmpresas(json);
-        console.log(json);
-        
       }
-    };
+    };    
     
     fetchEmpresas();
-  }, []);
+  }, [modal]);
 
-  const fetchUsuariosPorEmpresa = async (empresaId) => {
-    setNotFound('')
-    setUsuarios([]);
 
-    const token = window.localStorage.getItem('token');
-    const { url, options } = GET_USUARIOS_BY_EMPRESA(token, empresaId);
-    const { response, json } = await request(url, options);
-    
-    if (response.ok) {
-      console.log(json);
-      setUsuarios(json);
-    }
 
-    if(json.message){
-      setNotFound(json.message)
-    }
-  };
 
   return (
     <div className={`${styles.Container} animation-left-rigth-suav`}>
@@ -58,16 +44,16 @@ const ListarEmpresas = () => {
             <div className={styles.empresaRow} key={empresa.id}            
             >
               <p 
-                onClick={() => fetchUsuariosPorEmpresa(empresa.id)}
                 className={styles.nomeEmpresa}
                 >
                 {empresa.nome}
               </p>
               <p className={styles.cnpjEmpresa}>{empresa.cnpj}</p>
+
               <div className={styles.acoesbtn}>
-                <button>usuarios</button>
-                <button>editar</button>
-                <button>excluir</button>
+                <button className={styles.buttonRow} onClick={()=>setModal({status: true, nome:'empresaUsuario', data:empresa})}>usuarios</button>
+                <button className={styles.buttonRow} onClick={()=>setModal({status: true, nome:'editaEmpresa', data:empresa})}>editar</button>
+                <button className={styles.buttonRowDelete} onClick={()=>setModal({status: true, nome:'deletaEmpresa', data:empresa})}>excluir</button>
               </div>
               <div className={styles.descricaoEmpresa}>
                 <p><b className={styles.bold}>Endereço: </b>{empresa.endereco}</p>
