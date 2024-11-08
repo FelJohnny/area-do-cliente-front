@@ -83,6 +83,22 @@ export function GET_PEDIDOS(id, token,page) {
   };
 }
 
+export function GET_PEDIDOS_COM_FILTROS(id, token, page, regiaoFiltro, colecaoFiltro) {
+  // Monta a URL base com parâmetros obrigatórios
+  let url = `${URL}/api/pedido/cliente/${id}/com-filtros?page=${page}`;
+
+  return {
+    url,
+    options: {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  };
+}
+
+
 export function GET_GRUPO_CLI(token){
   return {
     url: `${URL}/api/grupocli/`,

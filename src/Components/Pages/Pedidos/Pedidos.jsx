@@ -1,66 +1,151 @@
-import React, { useContext, useEffect, useState } from 'react'
-import styles from './Pedidos.module.css'
-import Header from '../../Header/Header'
+import React, { useContext, useEffect, useState } from 'react';
+import styles from './Pedidos.module.css';
+import Header from '../../Header/Header';
 import { GlobalContext } from '../../../Context/GlobalContext';
-import Loading from '../../Loading/Loading.jsx'
-import Button from '../../Button/Button.jsx'
+import Loading from '../../Loading/Loading.jsx';
+import Button from '../../Button/Button.jsx';
 import ModalPedido from '../../Modals/ModalPedido/ModalPedido.jsx';
 import useFetch from '../../../Hooks/useFetch.jsx';
-import { GET_PEDIDOS } from '../../../Api/api.js';
+import { GET_PEDIDOS, GET_PEDIDOS_COM_FILTROS } from '../../../Api/api.js';
 import { jwtDecode } from 'jwt-decode';
 
 const Pedidos = () => {
-  const { page, setPage,setSizeMobile,sizeMobile,} = useContext(GlobalContext);
+  const { page, setPage } = useContext(GlobalContext);
 
   const [pedidos, setPedidos] = useState([]);
-  const [currentPedido, setCurrentPedido]=useState();
+  const [currentPedido, setCurrentPedido] = useState();
+  const [filtroAtivo, setFiltroAtivo] = useState({});
+  const [FiltroRegioes, setFiltroRegioes] = useState([]);
   const [modal, setModal] = useState(false);
   const { loading, data, request, error, setLoading } = useFetch();
-  const [lasPage, setLastPage]= useState('');
+  const [lastPage, setLastPage] = useState('');
 
-  useEffect(()=>{
+  useEffect(() => {
     async function pegaPedidos() {
       const token = window.localStorage.getItem("token");
-        if (token) {
-          const { id } = jwtDecode(token);
-          const { url, options } = GET_PEDIDOS(id, token,page);
-          const { response, json } = await request(url, options);
-          if (response.ok) {
-            setPedidos(json.pedidos.retorno)
-            setLastPage(json.paginacao.total_Pages)
-          } else {
-            navigate('/')
-          }
-        }else{
-          logout();
-          navigate('/')
-        }
-    }
-    pegaPedidos()
-  },[])
+      if (token) {
+        const { id } = jwtDecode(token);
+        const { url, options } = GET_PEDIDOS(id, token, page);
+        const { response, json } = await request(url, options);
+        if (response.ok) {
+          const uniqueRegiao = [];
+          const seenCodes = new Set();
+          
+          json.regioes
+            .filter(item => item && item.regiao_cli)
+            .forEach(item => {
+              const codigo = item.regiao_cli.codigo;
+              if (!seenCodes.has(codigo)) {
+                seenCodes.add(codigo);
+                uniqueRegiao.push({
+                  codigo,
+                  descricao: item.regiao_cli.descricao,
+                  obs: item.regiao_cli.obs
+                });
+              }
+            });
 
-  async function paginacao(page){
+          setFiltroRegioes(uniqueRegiao);
+          setPedidos(json.pedidos.retorno);
+          setLastPage(json.paginacao.total_Pages);
+        } else {
+          navigate('/');
+        }
+      } else {
+        logout();
+        navigate('/');
+      }
+    }
+    pegaPedidos();
+  }, []);
+
+  async function paginacao(page) {
     const token = window.localStorage.getItem("token");
-    setLoading(true)
-    setPage(page)
+    setLoading(true);
+    setPage(page);
     const { id } = jwtDecode(token);
     const { url, options } = GET_PEDIDOS(id, token, page);
     const { response, json } = await request(url, options);
     if (response.ok) {
-      setPedidos(json.pedidos.retorno)
-      setLastPage(json.paginacao.total_Pages)
+      setPedidos(json.pedidos.retorno);
+      setLastPage(json.paginacao.total_Pages);
     }
   }
 
-  function currentPedidoFunction(index){
-    setCurrentPedido(pedidos[index])
-    setModal(true)
+  function currentPedidoFunction(index) {
+    setCurrentPedido(pedidos[index]);
+    setModal(true);
   }
 
+  async function filtrarPedido(filtro, nomeFiltro) {
+    setFiltroAtivo((prevFiltroAtivo) => {
+        const novoFiltroAtivo = { ...prevFiltroAtivo };
+
+        if (!novoFiltroAtivo[nomeFiltro]) {
+            novoFiltroAtivo[nomeFiltro] = [];
+        }
+
+        if (novoFiltroAtivo[nomeFiltro].includes(filtro)) {
+            novoFiltroAtivo[nomeFiltro] = novoFiltroAtivo[nomeFiltro].filter(
+                (item) => item !== filtro
+            );
+        } else {
+            novoFiltroAtivo[nomeFiltro].push(filtro);
+        }
+
+        return novoFiltroAtivo;
+    });
+
+    const token = window.localStorage.getItem("token");
+    if (token) {
+      const { id } = jwtDecode(token);
+      const regiaoFiltro = filtroAtivo.regiao ? filtroAtivo.regiao[0] : null;
+      const colecaoFiltro = filtroAtivo.colecao ? filtroAtivo.colecao[0] : null;      
+      const { url, options } = GET_PEDIDOS_COM_FILTROS(id, token, page, regiaoFiltro, colecaoFiltro);
+      console.log(url);
+      const { response, json } = await request(url, options);   
+         
+      if (response.ok) {
+        setPedidos(json.pedidos.retorno);
+        setLastPage(json.paginacao.total_Pages);
+      }
+    }
+}
+
+
+
+
   return (
-    <div className={styles.containerPedidos}>
-        <Header tela={'pedidos'}/>
-        <section>
+    <div>
+      <Header tela={'pedidos'} />
+      <section className={styles.containerPedidos}>
+        <div className={styles.ContainerfiltrosPedido}>
+          <p className={styles.tituloFiltro}>Filtros</p>
+          <div className={styles.containerFiltroRegiao}>
+            <p className={styles.tituloRegiao}>Região</p>
+            <input
+              type="text"
+              placeholder="buscar região"
+              className={styles.buscaRegiao}
+            />
+            <div className={styles.listCheckbox}>
+              {loading && <Loading />}
+              {FiltroRegioes &&
+                !loading &&
+                FiltroRegioes.map((regiao) => (
+                  <label className={styles.labelCheckbox} key={regiao.codigo}>
+                    <input
+                      type="checkbox"
+                      className={styles.checkbox}
+                      onChange={() => filtrarPedido(regiao.codigo, 'regiao')}
+                    />
+                    {regiao.descricao}
+                  </label>
+                ))}
+            </div>
+          </div>
+        </div>
+        <div>
           <div className={styles.nomeColuna}>
             <span>ID</span>
             <span>N° PEDIDO</span>
@@ -68,35 +153,97 @@ const Pedidos = () => {
             <span>ENTREGA_PREV</span>
             <span>SITUAÇÃO</span>
           </div>
-          {loading&& (
+          {loading && (
             <div className={styles.loading}>
-              <Loading/>
+              <Loading />
             </div>
           )}
-          {pedidos&& !loading&& pedidos.map((pedido, index) => (
-          <div key={index} className={`${styles.rowPedido} animation-left-rigth-suav`}>
-            <span>{pedido.numero}</span>
-            <span>{pedido.ped_cli}</span>
-            <span>{pedido.dt_emissao}</span>
-            <span>{pedido.dt_saida}</span>
-            <span>{pedido.situacao_pedido ? pedido.situacao_pedido.descricao: 'AGUARDANDO ANALISE'}</span>
-            <Button onClick={()=>currentPedidoFunction(index)}>Ver mais</Button>
-          </div>
-          ))}
-          {!loading&& <div className={styles.navegacao}>
-            {page !==1 ? <button type='button' onClick={()=> paginacao(1)}>primeira</button>: <button type='button' disabled>primeira</button>}
-            {page !==1 && page !==2? <button type='button' onClick={()=> paginacao(page -2)}>{page -2}</button>:''}
-            {page !==1 ? <button type='button' onClick={()=> paginacao(page -1)}>{page -1}</button>:''}
-            <button type='button' disabled>{page}</button>
-            {page + 1 <= lasPage ? <button type='button' onClick={()=> paginacao(page + 1)}>{page +1}</button>:''}
-            {page + 2 <= lasPage ? <button type='button' onClick={()=> paginacao(page + 2)}>{page +2}</button>:''}
-            {page !== lasPage ?<button type='button' onClick={()=> paginacao(lasPage)}>ultima</button>: <button type='button' disabled>ultima</button>}
-          </div>}
-        </section>
-        {modal&& <ModalPedido setModal={setModal} pedidos={pedidos} currentPedido={currentPedido} modal={modal}/>}
-
+          {pedidos &&
+            !loading &&
+            pedidos.map((pedido, index) => (
+              <div
+                key={index}
+                className={`${styles.rowPedido} animation-left-rigth-suav`}
+              >
+                <span>{pedido.numero}</span>
+                <span>{pedido.ped_cli}</span>
+                <span>{pedido.dt_emissao}</span>
+                <span>{pedido.dt_saida}</span>
+                <span>
+                  {pedido.situacao_pedido
+                    ? pedido.situacao_pedido.descricao
+                    : 'AGUARDANDO ANALISE'}
+                </span>
+                <Button onClick={() => currentPedidoFunction(index)}>
+                  Ver mais
+                </Button>
+              </div>
+            ))}
+          {!loading && (
+            <div className={styles.navegacao}>
+              {page !== 1 ? (
+                <button type="button" onClick={() => paginacao(1)}>
+                  primeira
+                </button>
+              ) : (
+                <button type="button" disabled>
+                  primeira
+                </button>
+              )}
+              {page !== 1 && page !== 2 ? (
+                <button type="button" onClick={() => paginacao(page - 2)}>
+                  {page - 2}
+                </button>
+              ) : (
+                ''
+              )}
+              {page !== 1 ? (
+                <button type="button" onClick={() => paginacao(page - 1)}>
+                  {page - 1}
+                </button>
+              ) : (
+                ''
+              )}
+              <button type="button" disabled>
+                {page}
+              </button>
+              {page + 1 <= lastPage ? (
+                <button type="button" onClick={() => paginacao(page + 1)}>
+                  {page + 1}
+                </button>
+              ) : (
+                ''
+              )}
+              {page + 2 <= lastPage ? (
+                <button type="button" onClick={() => paginacao(page + 2)}>
+                  {page + 2}
+                </button>
+              ) : (
+                ''
+              )}
+              {page !== lastPage ? (
+                <button type="button" onClick={() => paginacao(lastPage)}>
+                  ultima
+                </button>
+              ) : (
+                <button type="button" disabled>
+                  ultima
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      </section>
+      {modal && (
+        <ModalPedido
+          setModal={setModal}
+          pedidos={pedidos}
+          currentPedido={currentPedido}
+          modal={modal}
+        />
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Pedidos
+export default Pedidos;

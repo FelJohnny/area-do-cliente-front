@@ -1,8 +1,60 @@
+.containerPedidos{
+    display: grid;
+    grid-template-columns: 300px 1fr;
+}
+
+.ContainerfiltrosPedido{
+    padding: 10px;
+    margin: 30px 20px;
+
+}
+
+.tituloFiltro{
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding-left:10px ;
+
+}
+
+.containerFiltroRegiao{
+    height: 200px;
+    margin: 10px 0;
+    padding: 10px;
+    background: #eeeeee;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+
+}
+
+.tituloRegiao{
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 10px ;
+}
+
+.buscaRegiao{
+    border-radius: 5px;
+    width: 100%;
+    height: 30px;
+    margin-bottom: 5px;
+}
+
+.listCheckbox{
+    display: grid;
+    grid-template-rows: repeat(auto-fill, 20px);
+    gap: 8px;
+    overflow: auto;
+    height: 120px;
+}
+
+.labelCheckbox{
+    cursor: pointer;
+}
 
 .nomeColuna{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    margin: 30px 30px 15px 30px;
+    margin: 30px 20px 15px 20px;
 }
 
 .nomeColuna span{
