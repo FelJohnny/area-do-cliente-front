@@ -14,11 +14,23 @@ const Pedidos = () => {
 
   const [pedidos, setPedidos] = useState([]);
   const [currentPedido, setCurrentPedido] = useState();
-  const [filtroAtivo, setFiltroAtivo] = useState({});
-  const [FiltroRegioes, setFiltroRegioes] = useState([]);
   const [modal, setModal] = useState(false);
-  const { loading, data, request, error, setLoading } = useFetch();
+  const { loading, request, setLoading } = useFetch();
   const [lastPage, setLastPage] = useState('');
+  const [searchText, setSearchText] = useState('');
+  const [FiltroRegioes, setFiltroRegioes] = useState([]);
+
+
+  
+  // Separação dos filtros
+  const [appliedFilters, setAppliedFilters] = useState({ regiaoFiltro: [] });
+  const [selectedFilters, setSelectedFilters] = useState({ regiaoFiltro: [] });
+  const filteredRegions = FiltroRegioes.filter(
+    (regiao) =>
+      regiao.descricao.toLowerCase().includes(searchText.toLowerCase()) ||
+      selectedFilters.regiaoFiltro.includes(regiao.codigo)
+  );
+  
 
   useEffect(() => {
     async function pegaPedidos() {
@@ -30,17 +42,17 @@ const Pedidos = () => {
         if (response.ok) {
           const uniqueRegiao = [];
           const seenCodes = new Set();
-          
+
           json.regioes
-            .filter(item => item && item.regiao_cli)
-            .forEach(item => {
+            .filter((item) => item && item.regiao_cli)
+            .forEach((item) => {
               const codigo = item.regiao_cli.codigo;
               if (!seenCodes.has(codigo)) {
                 seenCodes.add(codigo);
                 uniqueRegiao.push({
                   codigo,
                   descricao: item.regiao_cli.descricao,
-                  obs: item.regiao_cli.obs
+                  obs: item.regiao_cli.obs,
                 });
               }
             });
@@ -48,12 +60,7 @@ const Pedidos = () => {
           setFiltroRegioes(uniqueRegiao);
           setPedidos(json.pedidos.retorno);
           setLastPage(json.paginacao.total_Pages);
-        } else {
-          navigate('/');
         }
-      } else {
-        logout();
-        navigate('/');
       }
     }
     pegaPedidos();
@@ -61,59 +68,71 @@ const Pedidos = () => {
 
   async function paginacao(page) {
     const token = window.localStorage.getItem("token");
-    setLoading(true);
-    setPage(page);
-    const { id } = jwtDecode(token);
-    const { url, options } = GET_PEDIDOS(id, token, page);
-    const { response, json } = await request(url, options);
-    if (response.ok) {
-      setPedidos(json.pedidos.retorno);
-      setLastPage(json.paginacao.total_Pages);
+    if (token) {
+      setLoading(true);
+      setPage(page);
+  
+      const { id } = jwtDecode(token);
+  
+      // Cria o corpo da requisição, garantindo que regiaoFiltro sempre exista
+      const { url, options } = GET_PEDIDOS_COM_FILTROS(id, token, page, {
+        regiaoFiltro: appliedFilters.regiaoFiltro.length ? appliedFilters.regiaoFiltro : [],
+      });
+
+      const { response, json } = await request(url, options);
+  
+      if (response.ok) {
+        setPedidos(json.pedidos.retorno);
+        setLastPage(json.paginacao.total_Pages);
+      } else {
+        console.error('Erro ao buscar pedidos com paginação:', response.statusText);
+      }
+  
+      setLoading(false);
     }
   }
-
+  
   function currentPedidoFunction(index) {
     setCurrentPedido(pedidos[index]);
     setModal(true);
   }
 
-  async function filtrarPedido(filtro, nomeFiltro) {
-    setFiltroAtivo((prevFiltroAtivo) => {
-        const novoFiltroAtivo = { ...prevFiltroAtivo };
-
-        if (!novoFiltroAtivo[nomeFiltro]) {
-            novoFiltroAtivo[nomeFiltro] = [];
-        }
-
-        if (novoFiltroAtivo[nomeFiltro].includes(filtro)) {
-            novoFiltroAtivo[nomeFiltro] = novoFiltroAtivo[nomeFiltro].filter(
-                (item) => item !== filtro
-            );
-        } else {
-            novoFiltroAtivo[nomeFiltro].push(filtro);
-        }
-
-        return novoFiltroAtivo;
-    });
-
+  async function filtrarPedido() {
     const token = window.localStorage.getItem("token");
     if (token) {
+      setPage(1); // Reseta a paginação
+      setAppliedFilters(selectedFilters); // Aplica os filtros selecionados
+  
       const { id } = jwtDecode(token);
-      const regiaoFiltro = filtroAtivo.regiao ? filtroAtivo.regiao[0] : null;
-      const colecaoFiltro = filtroAtivo.colecao ? filtroAtivo.colecao[0] : null;      
-      const { url, options } = GET_PEDIDOS_COM_FILTROS(id, token, page, regiaoFiltro, colecaoFiltro);
-      console.log(url);
-      const { response, json } = await request(url, options);   
-         
+  
+      // Cria o corpo da requisição, garantindo que regiaoFiltro sempre exista
+      const body = {
+        regiaoFiltro: selectedFilters.regiaoFiltro.length ? selectedFilters.regiaoFiltro : [],
+      };
+  
+      const { url, options } = GET_PEDIDOS_COM_FILTROS(id, token, 1, body);
+  
+      const { response, json } = await request(url, options);
+  
       if (response.ok) {
         setPedidos(json.pedidos.retorno);
         setLastPage(json.paginacao.total_Pages);
+      } else {
+        console.error('Erro ao buscar pedidos com filtros:', response.statusText);
       }
     }
-}
+  }
+  
 
+  function handleCheckboxChange(codigo) {
+    setSelectedFilters((prev) => {
+      const newRegiaoFiltro = prev.regiaoFiltro.includes(codigo)
+        ? prev.regiaoFiltro.filter((item) => item !== codigo)
+        : [...prev.regiaoFiltro, codigo];
 
-
+      return { ...prev, regiaoFiltro: newRegiaoFiltro };
+    });
+  }
 
   return (
     <div>
@@ -121,27 +140,33 @@ const Pedidos = () => {
       <section className={styles.containerPedidos}>
         <div className={styles.ContainerfiltrosPedido}>
           <p className={styles.tituloFiltro}>Filtros</p>
+          <button 
+            onClick={filtrarPedido}
+            className={styles.buttonBusca}
+            >Aplicar Filtros</button>
           <div className={styles.containerFiltroRegiao}>
             <p className={styles.tituloRegiao}>Região</p>
             <input
               type="text"
               placeholder="buscar região"
               className={styles.buscaRegiao}
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)} // Atualiza o texto de busca
             />
+
             <div className={styles.listCheckbox}>
-              {loading && <Loading />}
-              {FiltroRegioes &&
-                !loading &&
-                FiltroRegioes.map((regiao) => (
-                  <label className={styles.labelCheckbox} key={regiao.codigo}>
-                    <input
-                      type="checkbox"
-                      className={styles.checkbox}
-                      onChange={() => filtrarPedido(regiao.codigo, 'regiao')}
-                    />
-                    {regiao.descricao}
-                  </label>
-                ))}
+            {filteredRegions &&
+              filteredRegions.map((regiao) => (
+                <label className={styles.labelCheckbox} key={regiao.codigo}>
+                  <input
+                    type="checkbox"
+                    className={styles.checkbox}
+                    onChange={() => handleCheckboxChange(regiao.codigo)}
+                    checked={selectedFilters.regiaoFiltro.includes(regiao.codigo)}
+                  />
+                  {regiao.descricao}
+                </label>
+              ))}
             </div>
           </div>
         </div>

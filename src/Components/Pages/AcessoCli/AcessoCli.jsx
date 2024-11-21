@@ -44,8 +44,9 @@ const AcessoCli = () => {
       }
     }
     fetchValidaToken();
+    
   }, []);
-
+  
   useEffect(() => {
     function handleResize() {
       setSizeMobile(window.innerWidth < 1100);

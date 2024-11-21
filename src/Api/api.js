@@ -83,20 +83,20 @@ export function GET_PEDIDOS(id, token,page) {
   };
 }
 
-export function GET_PEDIDOS_COM_FILTROS(id, token, page, regiaoFiltro, colecaoFiltro) {
-  // Monta a URL base com parâmetros obrigatórios
-  let url = `${URL}/api/pedido/cliente/${id}/com-filtros?page=${page}`;
-
+export function GET_PEDIDOS_COM_FILTROS(id, token, page, body) {
   return {
-    url,
+    url: `${URL}/api/pedido/cliente/${id}/com-filtros?page=${page}`,
     options: {
-      method: "GET",
+      method: "POST", // Alterado para POST para suportar envio de corpo
       headers: {
         Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify(body), // Envia o corpo no formato correto
     },
   };
 }
+
 
 
 export function GET_GRUPO_CLI(token){
