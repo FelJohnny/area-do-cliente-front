@@ -1,0 +1,181 @@
+/* ListarUsuarios.module.css */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+  
+.title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 1.5rem 0;
+
+}
+  
+.userList {
+width: 100%;
+max-width: 800px;
+margin: 1rem 0;
+}
+
+.columnsName{
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+gap: 5px;
+padding: 10px;
+
+
+& .columnChild{
+    min-width: 250px;
+    font-weight: bold;
+}
+}
+
+.userItem {
+display: flex;
+flex-direction: column;
+background-color: #eeeeee;
+padding: 10px;
+margin-bottom: 10px;
+border-radius: 5px;
+box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+}
+
+.userInfo {
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+gap: 5px;
+
+& .infoChild{
+    display: flex;
+    min-width: 250px;
+}
+
+& .infoButtons{
+    width: auto;
+}
+}
+
+.actionButton {
+    margin-left: 5px;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    background-color: #01426A;
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.actionButton:hover {
+    background-color: #01354a;
+}
+
+.userDetails {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #ececec;
+    border-radius: 5px;
+    overflow: auto;
+    animation: growDown 1s forwards;
+
+    & strong{
+        font-weight: bold;
+    }
+
+    & .containerRowClientes{
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #b9c0ca;
+        
+        & .row{
+            display: flex;
+            justify-content: space-between;
+            background-color: #ffffff;
+            
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        & .clienteNome{
+            width: 400px;
+        }
+
+    }
+}
+
+
+.containerModal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    padding: 0;
+    top: 0;
+    left: 0;
+    background-color: #66666670;
+    z-index: 200;
+
+    & .modal{
+        background-color: white;
+        border-radius: 5px;
+        width: 400px;
+        max-height: 700px;
+        margin: 10px;
+        padding: 36px;
+        box-shadow: 0 0 5px 1px rgb(177, 177, 177);
+        position: relative; 
+        overflow-y: auto;
+    }
+}
+
+.modalDelete{
+    padding: 36px;
+    background-color: white;
+    box-shadow: 0 0 5px 1px rgb(177, 177, 177);
+    border-radius: 5px;
+    width: 400px;
+    max-height: 700px;
+
+
+}
+
+.editUser {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.modalButton {
+    margin-top: 10px;
+    padding: 5px 15px;
+    font-size: 1rem;
+    background-color: #017C9A;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modalButton:hover {
+    background-color: #015f76;
+}
+
+@keyframes growDown {
+0% {
+    height: 0;
+}
+100% {
+    min-height: 300px;
+    opacity: 1;
+}
+}

@@ -47,6 +47,16 @@ export const GlobalStorage = ({ children }) => {
     //window.location.reload();
   }
 
+  const [modal, setModal]=useState({
+    status: false,
+    nome: '',
+    data:null,
+  })
+
+  //cad usuario
+  const [colecao, setColecao] = useState([]);
+  const [clientes, setClientes] = useState([]);
+
 
 
   return (
@@ -66,7 +76,10 @@ export const GlobalStorage = ({ children }) => {
         final,
         setFinal,
         pedidosPorData,
-        setPedidosPorData
+        setPedidosPorData,
+        modal, setModal,
+        colecao, setColecao,
+        clientes, setClientes
       }}
     >
       {children}

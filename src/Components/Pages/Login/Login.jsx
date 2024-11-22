@@ -19,8 +19,8 @@ const Login = () => {
     const senhaForm = useForm()
     const navigate = useNavigate()
     const [message,setMessage]=useState('')
-    const { request, error, loading, data } = useFetch();
-    const { userAuth, currentUser, setCurrentUser, logout } = useContext(GlobalContext);
+    const { request, loading, data } = useFetch();
+    const { currentUser, setCurrentUser, logout } = useContext(GlobalContext);
 
 
     async function handleSubimit(e){ 

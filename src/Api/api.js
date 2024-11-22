@@ -28,6 +28,10 @@ const URL = "https://cliente.amalfis.com.br";
 
   //--------------------------------NOVOS--------------------------------//
 
+
+
+//--------------------------------USUARIO--------------------------------//
+
   export function POST_LOGIN(dataLogin) {
     return {
       url: `${URL}/api/usuario/login`,
@@ -40,6 +44,20 @@ const URL = "https://cliente.amalfis.com.br";
       },
     };
 }
+
+// Função para buscar todos os usuários
+export function GET_USUARIOS(token) {
+  return {
+    url: `${URL}/api/usuarios`,
+    options: {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  };
+}
+
 
 export function GET_USUARIO(id,token){
   return {
@@ -64,6 +82,22 @@ export function GET_PEDIDOS(id, token,page) {
     },
   };
 }
+
+export function GET_PEDIDOS_COM_FILTROS(id, token, page, body) {
+  return {
+    url: `${URL}/api/pedido/cliente/${id}/com-filtros?page=${page}`,
+    options: {
+      method: "POST", // Alterado para POST para suportar envio de corpo
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body), // Envia o corpo no formato correto
+    },
+  };
+}
+
+
 
 export function GET_GRUPO_CLI(token){
   return {
@@ -125,4 +159,201 @@ export function CRIA_USUARIO(token,data){
       body: JSON.stringify(data),
     }
   }
+}
+
+export function DELETE_USUARIO(token, usuarioId) {
+  return {
+    url: `${URL}/api/usuario/${usuarioId}`,  // Verifique se o endpoint está correto
+    options: {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  };
+}
+
+export const UPDATE_USUARIO = (token, userId, data) => {
+  return {
+    url: `${URL}/api/usuario/${userId}`,
+    options: {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    },
+  };
+};
+
+//--------------------------------ROLES--------------------------------//
+export function GET_ROLES(token){
+  return {
+    url: `${URL}/api/roles/`,
+    options:{
+      method: "GET",
+      headers:{
+        Authorization: `Bearer ${token}`,
+      }
+    }
+  }
+}
+
+//--------------------------------PERMISSOES--------------------------------//
+export function GET_PERMISSOES(token){
+  return {
+    url: `${URL}/api/permissoes/`,
+    options:{
+      method: "GET",
+      headers:{
+        Authorization: `Bearer ${token}`,
+      }
+    }
+  }
+}
+
+//-----------------------PERMISSOES POR ROLE-----------------------//
+export function GET_PERMISSOES_BY_ROLE(token, roleId) {
+  return {
+    url: `${URL}/api/roles/${roleId}/permissoes`,
+    options: {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  };
+}
+
+//------------------------------- EMPRESAS --------------------------------//
+
+export function CRIA_EMPRESA(token, dataEmpresa) {
+  return {
+    url: `${URL}/api/empresas`,
+    options: {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataEmpresa),
+    },
+  };
+}
+
+export function GET_EMPRESAS(token) {
+  return {
+    url: `${URL}/api/empresas`,
+    options: {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  };
+}
+
+export function GET_EMPRESA_BY_ID(token, id) {
+  return {
+    url: `${URL}/api/empresas/${id}`,
+    options: {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  };
+}
+
+export function DELETE_EMPRESA(token, id) {
+  return {
+    url: `${URL}/api/empresas/${id}`,
+    options: {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  };
+}
+
+export function UPDATE_EMPRESA(token, id, dataEmpresa) {
+  return {
+    url: `${URL}/api/empresas/${id}`,
+    options: {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataEmpresa),
+    },
+  };
+}
+
+//------------------------------ USUARIOS_EMPRESA ----------------------------//
+
+export function GET_USUARIOS_BY_EMPRESA(token, empresaId) {
+  return {
+    url: `${URL}/api/empresas/${empresaId}/usuarios`,
+    options: {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  };
+}
+
+export function DELETE_USUARIO_FROM_EMPRESA(token, empresaId, usuarioId) {
+  return {
+    url: `${URL}/api/empresas/${empresaId}/usuarios/${usuarioId}`,
+    options: {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  };
+}
+
+export function UPDATE_USUARIO_FROM_EMPRESA(token, empresaId, usuarioId, dataUsuario) {
+  return {
+    url: `${URL}/api/empresas/${empresaId}/usuarios/${usuarioId}`,
+    options: {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataUsuario),
+    },
+  };
+}
+
+export function ADD_USUARIO_TO_EMPRESA(token, empresaId, usuarioId) {
+  return {
+    url: `${URL}/api/empresas/${empresaId}/usuarios/${usuarioId}`,
+    options: {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    },
+  };
+}
+
+
+export function GET_USUARIOS_DISPONIVEIS(token) {
+  return {
+    url: `${URL}/api/usuarios/disponiveis`,  // URL correta para a rota de usuários disponíveis
+    options: {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  };
 }

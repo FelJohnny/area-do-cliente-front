@@ -6,8 +6,8 @@ import Loading from '../../Loading/Loading';
 import { GlobalContext } from '../../../Context/GlobalContext.jsx';
 import { useNavigate } from 'react-router-dom';
 
-const ModalCreateUserCollections = ({ modal, setModal, colecao, setColecao }) => {
-  const { setPopUp } = useContext(GlobalContext);
+const ModalCreateUserCollections = ({ modal, setModal}) => {
+  const { setPopUp, colecao, setColecao } = useContext(GlobalContext);
 
   const CloseContainer = useRef(null);
   const modalContainer = useRef(null);

@@ -13,14 +13,17 @@ const validacao = {
   }
 };
 
-const useForm = (type) => {
+const useForm = (type, maxLength) => {
   const [value, setValue] = useState("");
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
 
   function validate(value) {
     if (type === false) return true;
     if (value.length === 0) {
       setError("Preencha um valor");
+      return false;
+    } else if (maxLength && value.length > maxLength) {
+      setError(`O valor deve ter no máximo ${maxLength} caracteres`);
       return false;
     } else if (validacao[type] && !validacao[type].regex.test(value)) {
       setError(validacao[type].message);
@@ -47,7 +50,6 @@ const useForm = (type) => {
     setError(null);
   }
   
-
   return {
     value,
     setValue,
@@ -56,7 +58,7 @@ const useForm = (type) => {
     onChange,
     validate: () => validate(value),
     onBlur: () => validate(value),
-    reset: ()=> reset(),
+    reset: () => reset(),
   };
 };
 

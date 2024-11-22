@@ -1,0 +1,39 @@
+.btn{
+    color: white;
+    border: none;
+    /* background-color: #01426A; */
+    background-color: #828688;
+    padding: 10px 40px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+    font-size: 1.1rem;
+}
+    
+.btn:hover{
+    transform: scale(1.02);
+}
+
+.btn:disabled{
+    background-color: gray;
+    transform: none;
+}
+
+.btnAtivo{
+    color: white;
+    border: none;
+    background-color: #01426A;
+    padding: 10px 40px;
+    border-radius: 4px;
+    cursor: default;
+    font-weight: bold;
+    transition: 0.3s;
+    font-size: 1.1rem;
+}
+
+.sublista{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}

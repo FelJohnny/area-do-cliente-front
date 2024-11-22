@@ -1,0 +1,65 @@
+.containerModal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    padding: 0;
+    top: 0;
+    left: 0;
+    background-color: #66666670;
+    z-index: 200;
+
+    & .modal{
+        background-color: white;
+        border-radius: 5px;
+        width: 400px;
+        height: 200px;
+        margin: 10px;
+        padding: 36px;
+        box-shadow: 0 0 5px 1px rgb(177, 177, 177);
+        position: relative; 
+        overflow-y: auto;
+
+        & .texto{
+            font-size: 1.5rem;
+            text-align: center;
+
+        }
+        & .nomeEmpresa{
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        & .buttonsDelete{
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+
+
+            & .btnYes{
+                background-color: rgb(90, 202, 90);
+                padding: 10px 20px;
+                border-radius: 5px;
+                border: none;
+                color: white;
+                cursor: pointer;                
+            }
+
+            & .btnNo{
+                background-color: rgb(224, 78, 78);
+                padding: 10px 20px;
+                border-radius: 5px;
+                border: none;
+                color: white;
+                cursor: pointer;
+            }
+        }
+    }
+    
+
+}
+
