@@ -11,16 +11,14 @@ import { GlobalContext } from '../../../../../Context/GlobalContext.jsx';
 import InputSelect from '../../../../Forms/InputSelect/InputSelect.jsx';
 
 const CadastrarUsuario = () => {
-    const { setPopUp } = useContext(GlobalContext);
-    const [modal, setModal] = useState({ status: false, mod: '' });
+    const { setPopUp,  setModal, modal, colecao, setColecao, clientes, setClientes } = useContext(GlobalContext);
     const nomeForm = useForm();
     const emailForm = useForm('email');
     const senhaForm = useForm();
     const contatoForm = useForm();
     const ConfirmarSenhaForm = useForm();
 
-    const [colecao, setColecao] = useState([]);
-    const [clientes, setClientes] = useState([]);
+
     const [cargoFetch, setCargoFetch] = useState([]);
     const [permissoesFetch, setPermissoesFetch] = useState([]);
     const [permissoesCRUD, setPermissoesCRUD] = useState({});
@@ -109,7 +107,7 @@ const CadastrarUsuario = () => {
 
     function abrirModal(e, nomeModal) {
         e.preventDefault();
-        setModal({ status: true, mod: nomeModal });
+        setModal({status: true, nome:nomeModal})
     }
 
     const handleCRUDChange = (e, permissaoId, crudType) => {
@@ -244,11 +242,16 @@ const CadastrarUsuario = () => {
         
                     <div className={styles.buttons}>
                         <div className={styles.containerBtn}>
-                            <Button onClick={(e) => abrirModal(e, 'clientes')} children={'Vincular Clientes'} />
+                            <Button 
+                                onClick={(e) => abrirModal(e, 'clientes')} 
+                                children={'Vincular Clientes'} />
                             {clientes.length > 0 && "Vínculos OK"}
                         </div>
                         <div className={styles.containerBtn}>
-                            <Button onClick={(e) => abrirModal(e, 'colecao')} children={'Vincular Coleção'} />
+                            <Button 
+                                children={'Vincular Coleção'}
+                                onClick={(e) => abrirModal(e, 'colecao')} 
+                                 />
                             {colecao.length > 0 && "Vínculos OK"}
                         </div>
                     </div>
@@ -334,8 +337,7 @@ const CadastrarUsuario = () => {
                 </div>
             </div>
 
-            {modal.mod === 'clientes' && <ModalCreateUserClientes setModal={setModal} modal={modal} clientes={clientes} setClientes={setClientes} />}
-            {modal.mod === 'colecao' && <ModalCreateUserColecao setModal={setModal} modal={modal} colecao={colecao} setColecao={setColecao} />}
+            
         </div>
     );
 }

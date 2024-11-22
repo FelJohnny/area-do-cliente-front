@@ -153,7 +153,7 @@ const Pedidos = () => {
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)} // Atualiza o texto de busca
             />
-
+            {!filteredRegions.length&& !loading&&<p>Nenhuma região encontrada</p>}
             <div className={styles.listCheckbox}>
             {filteredRegions &&
               filteredRegions.map((regiao) => (

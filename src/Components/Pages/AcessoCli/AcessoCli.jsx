@@ -14,10 +14,12 @@ import Gerenciar from '../Gerenciar/Gerenciar.jsx';
 import ModalUsuariosEmpresa from '../../Modals/ModalEmpresa/ModalUsuariosEmpresa/ModalUsuariosEmpresa.jsx';
 import ModalConfirmaDelete from '../../Modals/ModalEmpresa/ModalConfirmaDelete/ModalConfirmaDelete.jsx';
 import ModalEditaEmpresa from '../../Modals/ModalEmpresa/ModalEditaEmpresa/ModalEditaEmpresa.jsx';
+import ModalCreateUserClientes from '../../Modals/ModalCreateUserClientes/ModalCreateUserClientes.jsx';
+import ModalCreateUserColecao from '../../Modals/ModalCreateUserColecao/ModalCreateUserColecao.jsx';
 
 
 const AcessoCli = () => {
-  const { setSizeMobile, sizeMobile, setCurrentUser, logout, popUp, currentUser, modal} = useContext(GlobalContext);
+  const { setSizeMobile, sizeMobile, setCurrentUser, logout, popUp, currentUser, modal, setModal, colecao, setColecao,clientes, setClientes} = useContext(GlobalContext);
   const { request } = useFetch();
   const navigate = useNavigate();
 
@@ -104,6 +106,9 @@ const AcessoCli = () => {
       {modal.status&& modal.nome==='empresaUsuario'&&<ModalUsuariosEmpresa/>}
       {modal.status&& modal.nome==='deletaEmpresa'&&<ModalConfirmaDelete/>}
       {modal.status&& modal.nome==='editaEmpresa'&&<ModalEditaEmpresa/>}
+
+      {modal.status&& modal.nome==='clientes' && <ModalCreateUserClientes setModal={setModal} modal={modal} clientes={clientes} setClientes={setClientes} />}
+      {modal.status&& modal.nome==='colecao' && <ModalCreateUserColecao setModal={setModal} modal={modal} colecao={colecao} setColecao={setColecao} />}
 
     </div>
   );

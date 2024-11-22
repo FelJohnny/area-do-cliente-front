@@ -53,6 +53,10 @@ export const GlobalStorage = ({ children }) => {
     data:null,
   })
 
+  //cad usuario
+  const [colecao, setColecao] = useState([]);
+  const [clientes, setClientes] = useState([]);
+
 
 
   return (
@@ -73,7 +77,9 @@ export const GlobalStorage = ({ children }) => {
         setFinal,
         pedidosPorData,
         setPedidosPorData,
-        modal, setModal
+        modal, setModal,
+        colecao, setColecao,
+        clientes, setClientes
       }}
     >
       {children}
