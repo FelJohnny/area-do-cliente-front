@@ -11,7 +11,6 @@ import { jwtDecode } from 'jwt-decode';
 
 const Pedidos = () => {
   const { page, setPage } = useContext(GlobalContext);
-
   const [pedidos, setPedidos] = useState([]);
   const [currentPedido, setCurrentPedido] = useState();
   const [modal, setModal] = useState(false);
@@ -19,6 +18,7 @@ const Pedidos = () => {
   const [lastPage, setLastPage] = useState('');
   const [searchText, setSearchText] = useState('');
   const [FiltroRegioes, setFiltroRegioes] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
 
 
   
@@ -102,6 +102,7 @@ const Pedidos = () => {
     if (token) {
       setPage(1); // Reseta a paginação
       setAppliedFilters(selectedFilters); // Aplica os filtros selecionados
+      setErrorMessage(''); // Limpa mensagens de erro anteriores
   
       const { id } = jwtDecode(token);
   
@@ -110,18 +111,30 @@ const Pedidos = () => {
         regiaoFiltro: selectedFilters.regiaoFiltro.length ? selectedFilters.regiaoFiltro : [],
       };
   
+      console.log("Body enviado:", body); // Debug
+  
       const { url, options } = GET_PEDIDOS_COM_FILTROS(id, token, 1, body);
   
-      const { response, json } = await request(url, options);
+      try {
+        const { response, json } = await request(url, options);
   
-      if (response.ok) {
-        setPedidos(json.pedidos.retorno);
-        setLastPage(json.paginacao.total_Pages);
-      } else {
-        console.error('Erro ao buscar pedidos com filtros:', response.statusText);
+        if (response.ok) {
+          setPedidos(json.pedidos.retorno);
+          setLastPage(json.paginacao.total_Pages);
+        } else if (response.status === 400) {
+          setPedidos([]); // Certifique-se de limpar os pedidos
+          setErrorMessage('Não foi encontrado nenhum pedido com o filtro informado');
+        } else {
+          setErrorMessage('Erro ao buscar pedidos. Tente novamente mais tarde.');
+        }
+      } catch (error) {
+        setErrorMessage('Erro ao se comunicar com o servidor. Tente novamente mais tarde.');
       }
     }
   }
+  
+  
+  
   
 
   function handleCheckboxChange(codigo) {
@@ -178,33 +191,38 @@ const Pedidos = () => {
             <span>ENTREGA_PREV</span>
             <span>SITUAÇÃO</span>
           </div>
-          {loading && (
-            <div className={styles.loading}>
-              <Loading />
-            </div>
-          )}
-          {pedidos &&
-            !loading &&
-            pedidos.map((pedido, index) => (
-              <div
-                key={index}
-                className={`${styles.rowPedido} animation-left-rigth-suav`}
-              >
-                <span>{pedido.numero}</span>
-                <span>{pedido.ped_cli}</span>
-                <span>{pedido.dt_emissao}</span>
-                <span>{pedido.dt_saida}</span>
-                <span>
-                  {pedido.situacao_pedido
-                    ? pedido.situacao_pedido.descricao
-                    : 'AGUARDANDO ANALISE'}
-                </span>
-                <Button onClick={() => currentPedidoFunction(index)}>
-                  Ver mais
-                </Button>
-              </div>
-            ))}
-          {!loading && (
+          <div>
+  {loading && (
+    <div className={styles.loading}>
+      <Loading />
+    </div>
+  )}
+  {!loading && errorMessage && (
+    <p className={styles.errorMessage}>{errorMessage}</p>
+  )}
+  {!loading && pedidos.length > 0 && pedidos.map((pedido, index) => (
+    <div
+      key={index}
+      className={`${styles.rowPedido} animation-left-rigth-suav`}
+    >
+      <span>{pedido.numero}</span>
+      <span>{pedido.ped_cli}</span>
+      <span>{pedido.dt_emissao}</span>
+      <span>{pedido.dt_saida}</span>
+      <span>
+        {pedido.situacao_pedido
+          ? pedido.situacao_pedido.descricao
+          : 'AGUARDANDO ANALISE'}
+      </span>
+      <Button onClick={() => currentPedidoFunction(index)}>
+        Ver mais
+      </Button>
+    </div>
+  ))}
+</div>
+
+
+          {!loading && !errorMessage&&(
             <div className={styles.navegacao}>
               {page !== 1 ? (
                 <button type="button" onClick={() => paginacao(1)}>
