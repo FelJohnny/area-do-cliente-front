@@ -1,4 +1,5 @@
-const URL = "https://cliente.amalfis.com.br";
+// const URL = "https://cliente.amalfis.com.br";
+const URL = "http://localhost:3333";
 
 
 
@@ -25,8 +26,6 @@ const URL = "https://cliente.amalfis.com.br";
       },
     };
   }
-
-  //--------------------------------NOVOS--------------------------------//
 
 
 
@@ -356,4 +355,17 @@ export function GET_USUARIOS_DISPONIVEIS(token) {
       },
     },
   };
+}
+
+
+export function GET_CLIENTES_POR_USUARIO(token, id){
+  return{
+    url:`${URL}/api/clientes/usuario/${id}`,
+    options: {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  }
 }

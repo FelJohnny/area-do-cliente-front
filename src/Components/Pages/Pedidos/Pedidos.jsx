@@ -6,7 +6,7 @@ import Loading from '../../Loading/Loading.jsx';
 import Button from '../../Button/Button.jsx';
 import ModalPedido from '../../Modals/ModalPedido/ModalPedido.jsx';
 import useFetch from '../../../Hooks/useFetch.jsx';
-import { GET_PEDIDOS, GET_PEDIDOS_COM_FILTROS } from '../../../Api/api.js';
+import { GET_CLIENTES_POR_USUARIO, GET_PEDIDOS, GET_PEDIDOS_COM_FILTROS } from '../../../Api/api.js';
 import { jwtDecode } from 'jwt-decode';
 
 const Pedidos = () => {
@@ -16,22 +16,21 @@ const Pedidos = () => {
   const [modal, setModal] = useState(false);
   const { loading, request, setLoading } = useFetch();
   const [lastPage, setLastPage] = useState('');
-  const [searchText, setSearchText] = useState('');
+  const [searchTextRegiao, setSearchTextRegiao] = useState('');
+  const [searchTextEmpresa, setSearchTextEmpresa] = useState('');
   const [FiltroRegioes, setFiltroRegioes] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
-
-
   
   // Separação dos filtros
   const [appliedFilters, setAppliedFilters] = useState({ regiaoFiltro: [] });
   const [selectedFilters, setSelectedFilters] = useState({ regiaoFiltro: [] });
-  const filteredRegions = FiltroRegioes.filter(
-    (regiao) =>
-      regiao.descricao.toLowerCase().includes(searchText.toLowerCase()) ||
-      selectedFilters.regiaoFiltro.includes(regiao.codigo)
-  );
-  
 
+
+  const [clientes, setClientes] = useState([]);
+  const [filtroClientes, setFiltroClientes] = useState([]);
+  const [selectedClientes, setSelectedClientes] = useState([]);
+
+  const [filtroNumPed, setFiltroNumPed] = useState('')
   useEffect(() => {
     async function pegaPedidos() {
       const token = window.localStorage.getItem("token");
@@ -40,6 +39,8 @@ const Pedidos = () => {
         const { url, options } = GET_PEDIDOS(id, token, page);
         const { response, json } = await request(url, options);
         if (response.ok) {
+          console.log(json);
+          
           const uniqueRegiao = [];
           const seenCodes = new Set();
 
@@ -64,6 +65,37 @@ const Pedidos = () => {
       }
     }
     pegaPedidos();
+
+    async function pegaEntidadesPorClientes() {
+      const token = window.localStorage.getItem("token");
+    
+      if (token) {
+        const { id } = jwtDecode(token);
+        const { url, options } = GET_CLIENTES_POR_USUARIO(token, id);
+        const { response, json } = await request(url, options);
+    
+        if (response.ok) {
+          const uniqueClientes = [];
+          const seenCodes = new Set();
+    
+          json.forEach((cliente) => {
+            if (!seenCodes.has(cliente.codcli)) {
+              seenCodes.add(cliente.codcli);
+              uniqueClientes.push({
+                codcli: cliente.codcli,
+                nome: cliente.nome,
+                cnpj: cliente.cnpj,
+              });
+            }
+          });
+    
+          setClientes(uniqueClientes);
+          setFiltroClientes(uniqueClientes);
+        }
+      }
+    }
+    
+    pegaEntidadesPorClientes()
   }, []);
 
   async function paginacao(page) {
@@ -76,7 +108,11 @@ const Pedidos = () => {
   
       // Cria o corpo da requisição, garantindo que regiaoFiltro sempre exista
       const { url, options } = GET_PEDIDOS_COM_FILTROS(id, token, page, {
+
         regiaoFiltro: appliedFilters.regiaoFiltro.length ? appliedFilters.regiaoFiltro : [],
+        clienteFiltro: selectedClientes.length ? selectedClientes : [],
+        filtroNumPed:filtroNumPed
+
       });
 
       const { response, json } = await request(url, options);
@@ -106,12 +142,12 @@ const Pedidos = () => {
   
       const { id } = jwtDecode(token);
   
-      // Cria o corpo da requisição, garantindo que regiaoFiltro sempre exista
+      // corpo da requisição, garantindo que regiao Filtro sempre exista
       const body = {
         regiaoFiltro: selectedFilters.regiaoFiltro.length ? selectedFilters.regiaoFiltro : [],
+        clienteFiltro: selectedClientes.length ? selectedClientes : [],
+        filtroNumPed:filtroNumPed
       };
-  
-      console.log("Body enviado:", body); // Debug
   
       const { url, options } = GET_PEDIDOS_COM_FILTROS(id, token, 1, body);
   
@@ -133,10 +169,6 @@ const Pedidos = () => {
     }
   }
   
-  
-  
-  
-
   function handleCheckboxChange(codigo) {
     setSelectedFilters((prev) => {
       const newRegiaoFiltro = prev.regiaoFiltro.includes(codigo)
@@ -147,24 +179,49 @@ const Pedidos = () => {
     });
   }
 
+  function handleClienteCheckboxChange(codcli) {
+    setSelectedClientes((prev) =>
+      prev.includes(codcli)
+        ? prev.filter((item) => item !== codcli)
+        : [...prev, codcli]
+    );
+  }
+
+  const filteredRegions = FiltroRegioes.filter(
+    (regiao) =>
+      regiao.descricao.toLowerCase().includes(searchTextRegiao.toLowerCase()) ||
+      selectedFilters.regiaoFiltro.includes(regiao.codigo)
+  );
+  
+  const filteredClientes = filtroClientes.filter((cliente) => {
+    const searchTerm = searchTextEmpresa.toLowerCase().trim();
+  
+    return (
+      cliente.nome.toLowerCase().includes(searchTerm) || 
+      cliente.cnpj.includes(searchTerm) || 
+      selectedClientes.includes(cliente.codcli)
+    );
+  });
+
   return (
     <div>
       <Header tela={'pedidos'} />
       <section className={styles.containerPedidos}>
         <div className={styles.ContainerfiltrosPedido}>
-          <p className={styles.tituloFiltro}>Filtros</p>
           <button 
             onClick={filtrarPedido}
             className={styles.buttonBusca}
-            >Aplicar Filtros</button>
+            >Aplicar Filtros
+          </button>
+          {/* FILTRO REGIAO*/}
           <div className={styles.containerFiltroRegiao}>
             <p className={styles.tituloRegiao}>Região</p>
             <input
               type="text"
               placeholder="buscar região"
               className={styles.buscaRegiao}
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)} // Atualiza o texto de busca
+              value={searchTextRegiao}
+              onChange={(e) => setSearchTextRegiao(e.target.value)} // Atualiza o texto de busca
             />
             {!filteredRegions.length&& !loading&&<p>Nenhuma região encontrada</p>}
             <div className={styles.listCheckbox}>
@@ -182,8 +239,60 @@ const Pedidos = () => {
               ))}
             </div>
           </div>
+          {/* FILTRO Empresa*/}
+          <div className={styles.containerFiltroEmpresa}>
+            <p className={styles.tituloRegiao}>Empresa</p>
+            <input
+              type="text"
+              placeholder="buscar empresa"
+              className={styles.buscaRegiao}
+              value={searchTextEmpresa}
+              onChange={(e) => setSearchTextEmpresa(e.target.value)} // Atualiza o texto de busca
+            />
+            {!filteredClientes.length&& !loading&&<p>Nenhuma empresa encontrada</p>}
+            <div className={styles.listCheckboxEntidade}>
+              {filteredClientes &&
+                filteredClientes.map((cliente) => (
+                  <label
+                    className={styles.labelCheckbox}
+                    key={cliente.codcli}
+                    title={cliente.nome} // Tooltip para mostrar o nome completo
+                  >
+                    <input
+                      type="checkbox"
+                      className={styles.checkbox}
+                      onChange={() => handleClienteCheckboxChange(cliente.codcli)}
+                      checked={selectedClientes.includes(cliente.codcli)}
+                    />
+                    {/* Nome truncado */}
+                    <span>
+                      {cliente.nome.length > 15
+                        ? `${cliente.nome.substring(0, 15)}...`
+                        : cliente.nome}
+                    </span>
+                    {/* CNPJ */}
+                    <p className={styles.cnpjfiltro}>{cliente.cnpj}</p>
+                  </label>
+              ))}
+            </div>
+          </div>
         </div>
-        <div>
+
+        <div className={styles.ContainerListaPedido}>
+          <div className={styles.containerInputConsulta}>
+            <input 
+              
+              type="text"
+              className={styles.inputConsulta}
+              placeholder='Buscar por nº de pedido'
+              value={filtroNumPed}
+              onChange={(e)=>setFiltroNumPed(e.target.value)}
+            />
+            <button 
+              className={styles.buttonBuscaNumPed}
+              onClick={filtrarPedido}
+            >Buscar</button>
+          </div>
           <div className={styles.nomeColuna}>
             <span>ID</span>
             <span>N° PEDIDO</span>
